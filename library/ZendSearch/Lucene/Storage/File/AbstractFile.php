@@ -21,83 +21,21 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Exception
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Storage\File;
+use Zend\Search\Lucene;
+
+/**
+ * @uses       \Zend\Search\Lucene\Exception
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_Storage_File
+abstract class AbstractFile implements FileInterface
 {
-    /**
-     * Reads $length number of bytes at the current position in the
-     * file and advances the file pointer.
-     *
-     * @param integer $length
-     * @return string
-     */
-    abstract protected function _fread($length=1);
-
-
-    /**
-     * Sets the file position indicator and advances the file pointer.
-     * The new position, measured in bytes from the beginning of the file,
-     * is obtained by adding offset to the position specified by whence,
-     * whose values are defined as follows:
-     * SEEK_SET - Set position equal to offset bytes.
-     * SEEK_CUR - Set position to current location plus offset.
-     * SEEK_END - Set position to end-of-file plus offset. (To move to
-     * a position before the end-of-file, you need to pass a negative value
-     * in offset.)
-     * Upon success, returns 0; otherwise, returns -1
-     *
-     * @param integer $offset
-     * @param integer $whence
-     * @return integer
-     */
-    abstract public function seek($offset, $whence=SEEK_SET);
-
-    /**
-     * Get file position.
-     *
-     * @return integer
-     */
-    abstract public function tell();
-
-    /**
-     * Flush output.
-     *
-     * Returns true on success or false on failure.
-     *
-     * @return boolean
-     */
-    abstract public function flush();
-
-    /**
-     * Writes $length number of bytes (all, if $length===null) to the end
-     * of the file.
-     *
-     * @param string $data
-     * @param integer $length
-     */
-    abstract protected function _fwrite($data, $length=null);
-
-    /**
-     * Lock file
-     *
-     * Lock type may be a LOCK_SH (shared lock) or a LOCK_EX (exclusive lock)
-     *
-     * @param integer $lockType
-     * @return boolean
-     */
-    abstract public function lock($lockType, $nonBlockinLock = false);
-
-    /**
-     * Unlock file
-     */
-    abstract public function unlock();
-
     /**
      * Reads a byte from the current position in the file
      * and advances the file pointer.
@@ -181,7 +119,7 @@ abstract class Zend_Search_Lucene_Storage_File
      * and advances the file pointer.
      *
      * @return integer|float
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function readLong()
     {
@@ -201,7 +139,7 @@ abstract class Zend_Search_Lucene_Storage_File
                     ord($str[6]) << 8   |
                     ord($str[7]);
         } else {
-            return $this->readLong32Bit();
+            return $this->_readLong32Bit();
         }
     }
 
@@ -209,7 +147,7 @@ abstract class Zend_Search_Lucene_Storage_File
      * Writes long integer to the end of file
      *
      * @param integer $value
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function writeLong($value)
     {
@@ -228,7 +166,7 @@ abstract class Zend_Search_Lucene_Storage_File
                             chr($value>>8  & 0xFF) .
                             chr($value     & 0xFF),   8  );
         } else {
-            $this->writeLong32Bit($value);
+            $this->_writeLong32Bit($value);
         }
     }
 
@@ -238,9 +176,9 @@ abstract class Zend_Search_Lucene_Storage_File
      * advances the file pointer and return it as float (for 32-bit platforms).
      *
      * @return integer|float
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
-    public function readLong32Bit()
+    protected function _readLong32Bit()
     {
         $wordHigh = $this->readInt();
         $wordLow  = $this->readInt();
@@ -250,7 +188,7 @@ abstract class Zend_Search_Lucene_Storage_File
             if ($wordHigh == (int)0xFFFFFFFF  &&  ($wordLow & (int)0x80000000)) {
                 return $wordLow;
             } else {
-                throw new Zend_Search_Lucene_Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
+                throw new Lucene\Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
             }
 
         }
@@ -274,12 +212,12 @@ abstract class Zend_Search_Lucene_Storage_File
      * Writes long integer to the end of file (32-bit platforms implementation)
      *
      * @param integer|float $value
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
-    public function writeLong32Bit($value)
+    protected function _writeLong32Bit($value)
     {
         if ($value < (int)0x80000000) {
-            throw new Zend_Search_Lucene_Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
+            throw new Lucene\Exception('Long integers lower than -2147483648 (0x80000000) are not supported on 32-bit platforms.');
         }
 
         if ($value < 0) {
@@ -396,7 +334,7 @@ abstract class Zend_Search_Lucene_Storage_File
      * Writes a string to the end of file.
      *
      * @param string $str
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function writeString($str)
     {
@@ -446,7 +384,7 @@ abstract class Zend_Search_Lucene_Storage_File
         }
 
         if ($chars < 0) {
-            throw new Zend_Search_Lucene_Exception('Invalid UTF-8 string');
+            throw new Lucene\Exception('Invalid UTF-8 string');
         }
 
         $this->writeVInt($chars);

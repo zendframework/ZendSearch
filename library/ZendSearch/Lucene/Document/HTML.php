@@ -21,21 +21,28 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Document;
+use Zend\Search\Lucene;
+use Zend\Search\Lucene\Analysis\Analyzer;
+
+/**
  * HTML document.
  *
  * @uses       DOMDocument
  * @uses       DOMXPath
- * @uses       Zend_Search_Lucene_Analysis_Analyzer
- * @uses       Zend_Search_Lucene_Document
- * @uses       Zend_Search_Lucene_Exception
- * @uses       Zend_Search_Lucene_Field
+ * @uses       \Zend\Search\Lucene\Analysis\Analyzer
+ * @uses       \Zend\Search\Lucene\Document\Document
+ * @uses       \Zend\Search\Lucene\Document\Field
+ * @uses       \Zend\Search\Lucene\Exception
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Document
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
+class HTML extends Document
 {
     /**
      * List of document links
@@ -78,7 +85,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      */
     private function __construct($data, $isFile, $storeContent, $defaultEncoding = '')
     {
-        $this->_doc = new DOMDocument();
+        $this->_doc = new \DOMDocument();
         $this->_doc->substituteEntities = true;
 
         if ($isFile) {
@@ -102,7 +109,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
                                      . iconv($defaultEncoding, 'UTF-8//IGNORE', substr($htmlData, $htmlTagOffset)));
 
                 // Remove additional HEAD section
-                $xpath = new DOMXPath($this->_doc);
+                $xpath = new \DOMXPath($this->_doc);
                 $head  = $xpath->query('/html/head')->item(0);
                 $head->parentNode->removeChild($head);
             } else {
@@ -119,7 +126,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
          * even $this->_doc->encoding demonstrates another recognized encoding
          */
 
-        $xpath = new DOMXPath($this->_doc);
+        $xpath = new \DOMXPath($this->_doc);
 
         $docTitle = '';
         $titleNodes = $xpath->query('/html/head/title');
@@ -127,11 +134,11 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
             // title should always have only one entry, but we process all nodeset entries
             $docTitle .= $titleNode->nodeValue . ' ';
         }
-        $this->addField(Zend_Search_Lucene_Field::Text('title', $docTitle, 'UTF-8'));
+        $this->addField(Field::Text('title', $docTitle, 'UTF-8'));
 
         $metaNodes = $xpath->query('/html/head/meta[@name]');
         foreach ($metaNodes as $metaNode) {
-            $this->addField(Zend_Search_Lucene_Field::Text($metaNode->getAttribute('name'),
+            $this->addField(Field::Text($metaNode->getAttribute('name'),
                                                            $metaNode->getAttribute('content'),
                                                            'UTF-8'));
         }
@@ -143,9 +150,9 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
             $this->_retrieveNodeText($bodyNode, $docBody);
         }
         if ($storeContent) {
-            $this->addField(Zend_Search_Lucene_Field::Text('body', $docBody, 'UTF-8'));
+            $this->addField(Field::Text('body', $docBody, 'UTF-8'));
         } else {
-            $this->addField(Zend_Search_Lucene_Field::UnStored('body', $docBody, 'UTF-8'));
+            $this->addField(Field::UnStored('body', $docBody, 'UTF-8'));
         }
 
         $linkNodes = $this->_doc->getElementsByTagName('a');
@@ -195,7 +202,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param DOMNode $node
      * @param string &$text
      */
-    private function _retrieveNodeText(DOMNode $node, &$text)
+    private function _retrieveNodeText(\DOMNode $node, &$text)
     {
         if ($node->nodeType == XML_TEXT_NODE) {
             $text .= $node->nodeValue ;
@@ -233,7 +240,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param string  $data
      * @param boolean $storeContent
      * @param string  $defaultEncoding   HTML encoding, is used if it's not specified using Content-type HTTP-EQUIV meta tag.
-     * @return Zend_Search_Lucene_Document_Html
+     * @return \Zend\Search\Lucene\Document\HTML
      */
     public static function loadHTML($data, $storeContent = false, $defaultEncoding = '')
     {
@@ -246,7 +253,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param string  $file
      * @param boolean $storeContent
      * @param string  $defaultEncoding   HTML encoding, is used if it's not specified using Content-type HTTP-EQUIV meta tag.
-     * @return Zend_Search_Lucene_Document_Html
+     * @return \Zend\Search\Lucene\Document\HTML
      */
     public static function loadHTMLFile($file, $storeContent = false, $defaultEncoding = '')
     {
@@ -261,11 +268,11 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param array   $wordsToHighlight
      * @param callback $callback   Callback method, used to transform (highlighting) text.
      * @param array    $params     Array of additionall callback parameters (first non-optional parameter is a text to transform)
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
-    protected function _highlightTextNode(DOMText $node, $wordsToHighlight, $callback, $params)
+    protected function _highlightTextNode(\DOMText $node, $wordsToHighlight, $callback, $params)
     {
-        $analyzer = Zend_Search_Lucene_Analysis_Analyzer::getDefault();
+        $analyzer = Analyzer\Analyzer::getDefault();
         $analyzer->setInput($node->nodeValue, 'UTF-8');
 
         $matchedTokens = array();
@@ -292,19 +299,19 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
             // Retrieve HTML string representation for highlihted word
             $fullCallbackparamsList = $params;
             array_unshift($fullCallbackparamsList, $matchedWordNode->nodeValue);
-            $highlightedWordNodeSetHtml = call_user_func_array($callback, $fullCallbackparamsList);
+            $highlightedWordNodeSetHTML = call_user_func_array($callback, $fullCallbackparamsList);
 
             // Transform HTML string to a DOM representation and automatically transform retrieved string
             // into valid XHTML (It's automatically done by loadHTML() method)
-            $highlightedWordNodeSetDomDocument = new DOMDocument('1.0', 'UTF-8');
+            $highlightedWordNodeSetDomDocument = new \DOMDocument('1.0', 'UTF-8');
             $success = @$highlightedWordNodeSetDomDocument->
                                 loadHTML('<html><head><meta http-equiv="Content-type" content="text/html; charset=UTF-8"/></head><body>'
-                                       . $highlightedWordNodeSetHtml
+                                       . $highlightedWordNodeSetHTML
                                        . '</body></html>');
             if (!$success) {
-                throw new Zend_Search_Lucene_Exception("Error occured while loading highlighted text fragment: '$highlightedNodeHtml'.");
+                throw new Lucene\Exception("Error occured while loading highlighted text fragment: '$highlightedWordNodeSetHTML'.");
             }
-            $highlightedWordNodeSetXpath = new DOMXPath($highlightedWordNodeSetDomDocument);
+            $highlightedWordNodeSetXpath = new \DOMXPath($highlightedWordNodeSetDomDocument);
             $highlightedWordNodeSet      = $highlightedWordNodeSetXpath->query('/html/body')->item(0)->childNodes;
 
             for ($count = 0; $count < $highlightedWordNodeSet->length; $count++) {
@@ -326,7 +333,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param callback $callback   Callback method, used to transform (highlighting) text.
      * @param array    $params     Array of additionall callback parameters (first non-optional parameter is a text to transform)
      */
-    protected function _highlightNodeRecursive(DOMNode $contextNode, $wordsToHighlight, $callback, $params)
+    protected function _highlightNodeRecursive(\DOMNode $contextNode, $wordsToHighlight, $callback, $params)
     {
         $textNodes = array();
 
@@ -385,7 +392,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      * @param array    $params     Array of additionall callback parameters passed through into it
      *                             (first non-optional parameter is an HTML fragment for highlighting)
      * @return string
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function highlightExtended($words, $callback, $params = array())
     {
@@ -394,7 +401,7 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
         }
 
         $wordsToHighlightList = array();
-        $analyzer = Zend_Search_Lucene_Analysis_Analyzer::getDefault();
+        $analyzer = Analyzer\Analyzer::getDefault();
         foreach ($words as $wordString) {
             $wordsToHighlightList[] = $analyzer->tokenize($wordString);
         }
@@ -410,10 +417,10 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
         }
 
         if (!is_callable($callback)) {
-            throw new Zend_Search_Lucene_Exception('$viewHelper parameter mast be a View Helper name, View Helper object or callback.');
+            throw new Lucene\Exception('$viewHelper parameter mast be a View Helper name, View Helper object or callback.');
         }
 
-        $xpath = new DOMXPath($this->_doc);
+        $xpath = new \DOMXPath($this->_doc);
 
         $matchedNodes = $xpath->query("/html/body");
         foreach ($matchedNodes as $matchedNode) {
@@ -437,9 +444,9 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
      *
      * @return string
      */
-    public function getHtmlBody()
+    public function getHTMLBody()
     {
-        $xpath = new DOMXPath($this->_doc);
+        $xpath = new \DOMXPath($this->_doc);
         $bodyNodes = $xpath->query('/html/body')->item(0)->childNodes;
 
         $outputFragments = array();
@@ -450,4 +457,3 @@ class Zend_Search_Lucene_Document_Html extends Zend_Search_Lucene_Document
         return implode($outputFragments);
     }
 }
-

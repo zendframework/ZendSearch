@@ -21,16 +21,21 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Document;
+
+/**
  * OpenXML document.
  *
- * @uses       Zend_Search_Lucene_Document
+ * @uses       \Zend\Search\Lucene\Document\Document
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Document
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_Document_OpenXml extends Zend_Search_Lucene_Document
+abstract class AbstractOpenXML extends Document
 {
     /**
      * Xml Schema - Relationships
@@ -70,10 +75,10 @@ abstract class Zend_Search_Lucene_Document_OpenXml extends Zend_Search_Lucene_Do
     /**
      * Extract metadata from document
      *
-     * @param ZipArchive $package    ZipArchive OpenXML package
+     * @param ZipArchive $package    ZipArchive AbstractOpenXML package
      * @return array    Key-value pairs containing document meta data
      */
-    protected function extractMetaData(ZipArchive $package)
+    protected function extractMetaData(\ZipArchive $package)
     {
         // Data holders
         $coreProperties = array();

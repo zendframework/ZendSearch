@@ -21,6 +21,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Document;
+
+/**
  * A field is a section of a Document.  Each field has two parts,
  * a name and a value. Values may be free text or they may be atomic
  * keywords, which are not further processed. Such keywords may
@@ -34,7 +39,7 @@
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Field
+class Field
 {
     /**
      * Field name
@@ -139,7 +144,7 @@ class Zend_Search_Lucene_Field
      * @param string $name
      * @param string $value
      * @param string $encoding
-     * @return Zend_Search_Lucene_Field
+     * @return \Zend\Search\Lucene\Document\Field
      */
     public static function keyword($name, $value, $encoding = '')
     {
@@ -154,7 +159,7 @@ class Zend_Search_Lucene_Field
      * @param string $name
      * @param string $value
      * @param string $encoding
-     * @return Zend_Search_Lucene_Field
+     * @return \Zend\Search\Lucene\Document\Field
      */
     public static function unIndexed($name, $value, $encoding = '')
     {
@@ -169,7 +174,7 @@ class Zend_Search_Lucene_Field
      * @param string $name
      * @param string $value
      * @param string $encoding
-     * @return Zend_Search_Lucene_Field
+     * @return \Zend\Search\Lucene\Document\Field
      */
     public static function binary($name, $value)
     {
@@ -184,7 +189,7 @@ class Zend_Search_Lucene_Field
      * @param string $name
      * @param string $value
      * @param string $encoding
-     * @return Zend_Search_Lucene_Field
+     * @return \Zend\Search\Lucene\Document\Field
      */
     public static function text($name, $value, $encoding = '')
     {
@@ -199,7 +204,7 @@ class Zend_Search_Lucene_Field
      * @param string $name
      * @param string $value
      * @param string $encoding
-     * @return Zend_Search_Lucene_Field
+     * @return \Zend\Search\Lucene\Document\Field
      */
     public static function unStored($name, $value, $encoding = '')
     {
@@ -222,4 +227,3 @@ class Zend_Search_Lucene_Field
         }
     }
 }
-

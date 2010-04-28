@@ -14,7 +14,7 @@
  *
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Analysis
+ * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
@@ -23,23 +23,48 @@
 /**
  * @namespace
  */
-namespace Zend\Search\Lucene\Analysis\Analyzer\Common\Text;
-use Zend\Search\Lucene\Analysis\TokenFilter;
+namespace Zend\Search\Lucene\Search\QueryEntry;
 
 /**
- * @uses       \Zend\Search\Lucene\Analysis\Analyzer\Common\Text\Text
- * @uses       \Zend\Search\Lucene\Analysis\TokenFilter\LowerCase
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Analysis
+ * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class CaseInsensitive extends Text
+abstract class AbstractQueryEntry
 {
-    public function __construct()
+    /**
+     * Query entry boost factor
+     *
+     * @var float
+     */
+    protected $_boost = 1.0;
+
+
+    /**
+     * Process modifier ('~')
+     *
+     * @param mixed $parameter
+     */
+    abstract public function processFuzzyProximityModifier($parameter = null);
+
+
+    /**
+     * Transform entry to a subquery
+     *
+     * @param string $encoding
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     */
+    abstract public function getQuery($encoding);
+
+    /**
+     * Boost query entry
+     *
+     * @param float $boostFactor
+     */
+    public function boost($boostFactor)
     {
-        $this->addFilter(new TokenFilter\LowerCase());
+        $this->_boost *= $boostFactor;
     }
 }
-

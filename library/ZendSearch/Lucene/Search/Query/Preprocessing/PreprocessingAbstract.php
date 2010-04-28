@@ -21,11 +21,18 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Query\Preprocessing;
+use Zend\Search\Lucene;
+use Zend\Search\Lucene\Search\Query;
+
+/**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
- * @uses       Zend_Search_Lucene_Exception
- * @uses       Zend_Search_Lucene_Search_Query
+ * @uses       \Zend\Search\Lucene\Exception
+ * @uses       \Zend\Search\Lucene\Search\Query\AbstractQuery
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
@@ -33,7 +40,7 @@
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search_Lucene_Search_Query
+abstract class PreprocessingAbstract extends Query\AbstractQuery
 {
     /**
      * Matched terms.
@@ -50,35 +57,35 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
     /**
      * Optimize query in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\IndexInterface $index
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function optimize(Zend_Search_Lucene_Interface $index)
+    public function optimize(Lucene\IndexInterface $index)
     {
-        throw new Zend_Search_Lucene_Exception('This query is not intended to be executed.');
+        throw new Lucene\Exception('This query is not intended to be executed.');
     }
 
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @return Zend_Search_Lucene_Search_Weight
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @return \Zend\Search\Lucene\Search\Weight\Weight
      */
-    public function createWeight(Zend_Search_Lucene_Interface $reader)
+    public function createWeight(Lucene\IndexInterface $reader)
     {
-        throw new Zend_Search_Lucene_Exception('This query is not intended to be executed.');
+        throw new Lucene\Exception('This query is not intended to be executed.');
     }
 
     /**
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      */
-    public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null)
+    public function execute(Lucene\IndexInterface $reader, $docsFilter = null)
     {
-        throw new Zend_Search_Lucene_Exception('This query is not intended to be executed.');
+        throw new Lucene\Exception('This query is not intended to be executed.');
     }
 
     /**
@@ -90,19 +97,19 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
      */
     public function matchedDocs()
     {
-        throw new Zend_Search_Lucene_Exception('This query is not intended to be executed.');
+        throw new Lucene\Exception('This query is not intended to be executed.');
     }
 
     /**
      * Score specified document
      *
      * @param integer $docId
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\IndexInterface $reader
      * @return float
      */
-    public function score($docId, Zend_Search_Lucene_Interface $reader)
+    public function score($docId, Lucene\IndexInterface $reader)
     {
-        throw new Zend_Search_Lucene_Exception('This query is not intended to be executed.');
+        throw new Lucene\Exception('This query is not intended to be executed.');
     }
 
     /**
@@ -112,7 +119,6 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
      */
     public function getQueryTerms()
     {
-        throw new Zend_Search_Lucene_Exception('Rewrite operation has to be done before retrieving query terms.');
+        throw new Lucene\Exception('Rewrite operation has to be done before retrieving query terms.');
     }
 }
-

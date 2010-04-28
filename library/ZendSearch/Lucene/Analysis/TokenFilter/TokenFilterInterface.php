@@ -14,53 +14,35 @@
  *
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Index
+ * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\TokenFilter;
+use Zend\Search\Lucene\Analysis;
+
+/**
+ * Token filter converts (normalizes) Token ore removes it from a token stream.
+ *
+ * @uses       \Zend\Search\Lucene\Analysis\Token
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Index
+ * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Search_Lucene_Index_TermsStream_Interface
+interface TokenFilterInterface
 {
     /**
-     * Reset terms stream.
-     */
-    public function resetTermsStream();
-
-    /**
-     * Skip terms stream up to specified term preffix.
+     * Normalize Token or remove it (if null is returned)
      *
-     * Prefix contains fully specified field info and portion of searched term
-     *
-     * @param Zend_Search_Lucene_Index_Term $prefix
+     * @param \Zend\Search\Lucene\Analysis\Token $srcToken
+     * @return \Zend\Search\Lucene\Analysis\Token
      */
-    public function skipTo(Zend_Search_Lucene_Index_Term $prefix);
-
-    /**
-     * Scans terms dictionary and returns next term
-     *
-     * @return Zend_Search_Lucene_Index_Term|null
-     */
-    public function nextTerm();
-
-    /**
-     * Returns term in current position
-     *
-     * @return Zend_Search_Lucene_Index_Term|null
-     */
-    public function currentTerm();
-
-    /**
-     * Close terms stream
-     *
-     * Should be used for resources clean up if stream is not read up to the end
-     */
-    public function closeTermsStream();
+    public function normalize(Analysis\Token $srcToken);
 }

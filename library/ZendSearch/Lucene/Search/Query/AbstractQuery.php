@@ -21,15 +21,23 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Search_Highlighter_Default
- * @uses       Zend_Search_Lucene_Document_Html
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Query;
+use Zend\Search\Lucene;
+use Zend\Search\Lucene\Search\Highlighter;
+use Zend\Search\Lucene\Document;
+
+/**
+ * @uses       \Zend\Search\Lucene\Search\Highlighter\Default
+ * @uses       \Zend\Search\Lucene\Document\HTML
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_Search_Query
+abstract class AbstractQuery
 {
     /**
      * query boost factor
@@ -39,9 +47,9 @@ abstract class Zend_Search_Lucene_Search_Query
     private $_boost = 1;
 
     /**
-     * Query weight
+     * AbstractQuery weight
      *
-     * @var Zend_Search_Lucene_Search_Weight
+     * @var \Zend\Search\Lucene\Search\Weight\Weight
      */
     protected $_weight = null;
 
@@ -78,10 +86,10 @@ abstract class Zend_Search_Lucene_Search_Query
      * Score specified document
      *
      * @param integer $docId
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\IndexInterface $reader
      * @return float
      */
-    abstract public function score($docId, Zend_Search_Lucene_Interface $reader);
+    abstract public function score($docId, Lucene\IndexInterface $reader);
 
     /**
      * Get document ids likely matching the query
@@ -96,27 +104,27 @@ abstract class Zend_Search_Lucene_Search_Query
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * Query specific implementation
+     * AbstractQuery specific implementation
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      */
-    abstract public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null);
+    abstract public function execute(Lucene\IndexInterface $reader, $docsFilter = null);
 
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @return Zend_Search_Lucene_Search_Weight
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @return \Zend\Search\Lucene\Search\Weight\Weight
      */
-    abstract public function createWeight(Zend_Search_Lucene_Interface $reader);
+    abstract public function createWeight(Lucene\IndexInterface $reader);
 
     /**
      * Constructs an initializes a Weight for a _top-level_query_.
      *
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\IndexInterface $reader
      */
-    protected function _initWeight(Zend_Search_Lucene_Interface $reader)
+    protected function _initWeight(Lucene\IndexInterface $reader)
     {
         // Check, that it's a top-level query and query weight is not initialized yet.
         if ($this->_weight !== null) {
@@ -132,18 +140,18 @@ abstract class Zend_Search_Lucene_Search_Query
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\IndexInterface $index
+     * @return \Zend\Search\Lucene\Search\AbstractQuery\AbstractQuery
      */
-    abstract public function rewrite(Zend_Search_Lucene_Interface $index);
+    abstract public function rewrite(Lucene\IndexInterface $index);
 
     /**
      * Optimize query in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\IndexInterface $index
+     * @return \Zend\Search\Lucene\Search\AbstractQuery\AbstractQuery
      */
-    abstract public function optimize(Zend_Search_Lucene_Interface $index);
+    abstract public function optimize(Lucene\IndexInterface $index);
 
     /**
      * Reset query, so it can be reused within other queries or
@@ -170,27 +178,27 @@ abstract class Zend_Search_Lucene_Search_Query
     abstract public function getQueryTerms();
 
     /**
-     * Query specific matches highlighting
+     * AbstractQuery specific matches highlighting
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param \Zend\Search\Lucene\Search\Highlighter\HighlighterInterface $highlighter  Highlighter object (also contains doc for highlighting)
      */
-    abstract protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter);
+    abstract protected function _highlightMatches(Highlighter\HighlighterInterface $highlighter);
 
     /**
      * Highlight matches in $inputHTML
      *
      * @param string $inputHTML
      * @param string  $defaultEncoding   HTML encoding, is used if it's not specified using Content-type HTTP-EQUIV meta tag.
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface|null $highlighter
+     * @param \Zend\Search\Lucene\Search\Highlighter\HighlighterInterface|null $highlighter
      * @return string
      */
     public function highlightMatches($inputHTML, $defaultEncoding = '', $highlighter = null)
     {
         if ($highlighter === null) {
-            $highlighter = new Zend_Search_Lucene_Search_Highlighter_Default();
+            $highlighter = new Highlighter\DefaultHighlighter();
         }
 
-        $doc = Zend_Search_Lucene_Document_Html::loadHTML($inputHTML, false, $defaultEncoding);
+        $doc = Document\HTML::loadHTML($inputHTML, false, $defaultEncoding);
         $highlighter->setDocument($doc);
 
         $this->_highlightMatches($highlighter);
@@ -199,28 +207,27 @@ abstract class Zend_Search_Lucene_Search_Query
     }
 
     /**
-     * Highlight matches in $inputHtmlFragment and return it (without HTML header and body tag)
+     * Highlight matches in $inputHTMLFragment and return it (without HTML header and body tag)
      *
-     * @param string $inputHtmlFragment
+     * @param string $inputHTMLFragment
      * @param string  $encoding   Input HTML string encoding
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface|null $highlighter
+     * @param \Zend\Search\Lucene\Search\Highlighter\HighlighterInterface|null $highlighter
      * @return string
      */
-    public function htmlFragmentHighlightMatches($inputHtmlFragment, $encoding = 'UTF-8', $highlighter = null)
+    public function htmlFragmentHighlightMatches($inputHTMLFragment, $encoding = 'UTF-8', $highlighter = null)
     {
         if ($highlighter === null) {
-            $highlighter = new Zend_Search_Lucene_Search_Highlighter_Default();
+            $highlighter = new Highlighter\DefaultHighlighter();
         }
 
         $inputHTML = '<html><head><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8"/></head><body>'
-                   . iconv($encoding, 'UTF-8//IGNORE', $inputHtmlFragment) . '</body></html>';
+                   . iconv($encoding, 'UTF-8//IGNORE', $inputHTMLFragment) . '</body></html>';
 
-        $doc = Zend_Search_Lucene_Document_Html::loadHTML($inputHTML);
+        $doc = Document\HTML::loadHTML($inputHTML);
         $highlighter->setDocument($doc);
 
         $this->_highlightMatches($highlighter);
 
-        return $doc->getHtmlBody();
+        return $doc->getHTMLBody();
     }
 }
-

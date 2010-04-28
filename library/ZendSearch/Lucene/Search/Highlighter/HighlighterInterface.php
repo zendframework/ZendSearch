@@ -21,25 +21,32 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Highlighter;
+use Zend\Search\Lucene\Document;
+
+/**
+ * @uses       \Zend\Search\Lucene\Document
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Search_Lucene_Search_Highlighter_Interface
+interface HighlighterInterface
 {
     /**
      * Set document for highlighting.
      *
-     * @param Zend_Search_Lucene_Document_Html $document
+     * @param \Zend\Search\Lucene\Document\HTML $document
      */
-    public function setDocument(Zend_Search_Lucene_Document_Html $document);
+    public function setDocument(Document\HTML $document);
 
     /**
      * Get document for highlighting.
      *
-     * @return Zend_Search_Lucene_Document_Html $document
+     * @return \Zend\Search\Lucene\Document\HTML $document
      */
     public function getDocument();
 

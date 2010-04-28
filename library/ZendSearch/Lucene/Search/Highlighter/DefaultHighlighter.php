@@ -21,15 +21,21 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Search_Highlighter_Interface
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Highlighter;
+use Zend\Search\Lucene\Document;
+
+/**
+ * @uses       \Zend\Search\Lucene\Search\Highlighter\HighlighterInterface
+ * @uses       \Zend\Search\Lucene\Document;
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Highlighter_Default 
-    implements Zend_Search_Lucene_Search_Highlighter_Interface
+class DefaultHighlighter implements HighlighterInterface
 {
     /**
      * List of colors for text highlighting
@@ -54,16 +60,16 @@ class Zend_Search_Lucene_Search_Highlighter_Default
     /**
      * HTML document for highlighting
      *
-     * @var Zend_Search_Lucene_Document_Html
+     * @var \Zend\Search\Lucene\Document\HTML
      */
     protected $_doc;
 
     /**
      * Set document for highlighting.
      *
-     * @param Zend_Search_Lucene_Document_Html $document
+     * @param \Zend\Search\Lucene\Document\HTML $document
      */
-    public function setDocument(Zend_Search_Lucene_Document_Html $document)
+    public function setDocument(Document\HTML $document)
     {
         $this->_doc = $document;
     }
@@ -71,7 +77,7 @@ class Zend_Search_Lucene_Search_Highlighter_Default
     /**
      * Get document for highlighting.
      *
-     * @return Zend_Search_Lucene_Document_Html $document
+     * @return \Zend\Search\Lucene\Document\HTML $document
      */
     public function getDocument()
     {
@@ -90,5 +96,4 @@ class Zend_Search_Lucene_Search_Highlighter_Default
 
         $this->_doc->highlight($words, $color);
     }
-
 }

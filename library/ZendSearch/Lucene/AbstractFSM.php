@@ -20,6 +20,12 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene;
+use Zend\Search;
+
+/**
  * Abstract Finite State Machine
  *
  * Take a look on Wikipedia state machine description: http://en.wikipedia.org/wiki/Finite_state_machine
@@ -28,14 +34,14 @@
  * process() methods invokes a specified actions which may construct FSM output.
  * Actions may be also used to signal, that we have reached Accept State
  *
- * @uses       Zend_Search_Exception
- * @uses       Zend_Search_Lucene_FSMAction
+ * @uses       \Zend\Search\Exception
+ * @uses       \Zend\Search\Lucene\FSMAction
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_FSM
+abstract class AbstractFSM
 {
     /**
      * Machine States alphabet
@@ -171,12 +177,12 @@ abstract class Zend_Search_Lucene_FSM
      * No any action is invoked
      *
      * @param integer|string $state
-     * @throws Zend_Search_Exception
+     * @throws \Zend\Search\Exception
      */
     public function setState($state)
     {
         if (!isset($this->_states[$state])) {
-            throw new Zend_Search_Exception('State \'' . $state . '\' is not on of the possible FSM states.');
+            throw new Search\Exception('State \'' . $state . '\' is not on of the possible FSM states.');
         }
 
         $this->_currentState = $state;
@@ -240,26 +246,26 @@ abstract class Zend_Search_Lucene_FSM
      * @param integer|string $sourceState
      * @param integer|string $input
      * @param integer|string $targetState
-     * @param Zend_Search_Lucene_FSMAction|null $inputAction
-     * @throws Zend_Search_Exception
+     * @param \Zend\Search\Lucene\FSMAction|null $inputAction
+     * @throws \Zend\Search\Exception
      */
     public function addRule($sourceState, $input, $targetState, $inputAction = null)
     {
         if (!isset($this->_states[$sourceState])) {
-            throw new Zend_Search_Exception('Undefined source state (' . $sourceState . ').');
+            throw new Search\Exception('Undefined source state (' . $sourceState . ').');
         }
         if (!isset($this->_states[$targetState])) {
-            throw new Zend_Search_Exception('Undefined target state (' . $targetState . ').');
+            throw new Search\Exception('Undefined target state (' . $targetState . ').');
         }
         if (!isset($this->_inputAphabet[$input])) {
-            throw new Zend_Search_Exception('Undefined input symbol (' . $input . ').');
+            throw new Search\Exception('Undefined input symbol (' . $input . ').');
         }
 
         if (!isset($this->_rules[$sourceState])) {
             $this->_rules[$sourceState] = array();
         }
         if (isset($this->_rules[$sourceState][$input])) {
-            throw new Zend_Search_Exception('Rule for {state,input} pair (' . $sourceState . ', '. $input . ') is already defined.');
+            throw new Search\Exception('Rule for {state,input} pair (' . $sourceState . ', '. $input . ') is already defined.');
         }
 
         $this->_rules[$sourceState][$input] = $targetState;
@@ -277,12 +283,12 @@ abstract class Zend_Search_Lucene_FSM
      * Action execution order is defined by addEntryAction() calls
      *
      * @param integer|string $state
-     * @param Zend_Search_Lucene_FSMAction $action
+     * @param \Zend\Search\Lucene\FSMAction $action
      */
-    public function addEntryAction($state, Zend_Search_Lucene_FSMAction $action)
+    public function addEntryAction($state, FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            throw new Zend_Search_Exception('Undefined state (' . $state. ').');
+            throw new Search\Exception('Undefined state (' . $state. ').');
         }
 
         if (!isset($this->_entryActions[$state])) {
@@ -298,12 +304,12 @@ abstract class Zend_Search_Lucene_FSM
      * Action execution order is defined by addEntryAction() calls
      *
      * @param integer|string $state
-     * @param Zend_Search_Lucene_FSMAction $action
+     * @param \Zend\Search\Lucene\FSMAction $action
      */
-    public function addExitAction($state, Zend_Search_Lucene_FSMAction $action)
+    public function addExitAction($state, FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            throw new Zend_Search_Exception('Undefined state (' . $state. ').');
+            throw new Search\Exception('Undefined state (' . $state. ').');
         }
 
         if (!isset($this->_exitActions[$state])) {
@@ -320,15 +326,15 @@ abstract class Zend_Search_Lucene_FSM
      *
      * @param integer|string $state
      * @param integer|string $input
-     * @param Zend_Search_Lucene_FSMAction $action
+     * @param \Zend\Search\Lucene\FSMAction $action
      */
-    public function addInputAction($state, $inputSymbol, Zend_Search_Lucene_FSMAction $action)
+    public function addInputAction($state, $inputSymbol, FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            throw new Zend_Search_Exception('Undefined state (' . $state. ').');
+            throw new Search\Exception('Undefined state (' . $state. ').');
         }
         if (!isset($this->_inputAphabet[$inputSymbol])) {
-            throw new Zend_Search_Exception('Undefined input symbol (' . $inputSymbol. ').');
+            throw new Search\Exception('Undefined input symbol (' . $inputSymbol. ').');
         }
 
         if (!isset($this->_inputActions[$state])) {
@@ -348,15 +354,15 @@ abstract class Zend_Search_Lucene_FSM
      *
      * @param integer|string $sourceState
      * @param integer|string $targetState
-     * @param Zend_Search_Lucene_FSMAction $action
+     * @param \Zend\Search\Lucene\FSMAction $action
      */
-    public function addTransitionAction($sourceState, $targetState, Zend_Search_Lucene_FSMAction $action)
+    public function addTransitionAction($sourceState, $targetState, FSMAction $action)
     {
         if (!isset($this->_states[$sourceState])) {
-            throw new Zend_Search_Exception('Undefined source state (' . $sourceState. ').');
+            throw new Search\Exception('Undefined source state (' . $sourceState. ').');
         }
         if (!isset($this->_states[$targetState])) {
-            throw new Zend_Search_Exception('Undefined source state (' . $targetState. ').');
+            throw new Search\Exception('Undefined source state (' . $targetState. ').');
         }
 
         if (!isset($this->_transitionActions[$sourceState])) {
@@ -374,15 +380,15 @@ abstract class Zend_Search_Lucene_FSM
      * Process an input
      *
      * @param mixed $input
-     * @throws Zend_Search_Exception
+     * @throws \Zend\Search\Exception
      */
     public function process($input)
     {
         if (!isset($this->_rules[$this->_currentState])) {
-            throw new Zend_Search_Exception('There is no any rule for current state (' . $this->_currentState . ').');
+            throw new Search\Exception('There is no any rule for current state (' . $this->_currentState . ').');
         }
         if (!isset($this->_rules[$this->_currentState][$input])) {
-            throw new Zend_Search_Exception('There is no any rule for {current state, input} pair (' . $this->_currentState . ', ' . $input . ').');
+            throw new Search\Exception('There is no any rule for {current state, input} pair (' . $this->_currentState . ', ' . $input . ').');
         }
 
         $sourceState = $this->_currentState;
@@ -419,10 +425,9 @@ abstract class Zend_Search_Lucene_FSM
     public function reset()
     {
         if (count($this->_states) == 0) {
-            throw new Zend_Search_Exception('There is no any state defined for FSM.');
+            throw new Search\Exception('There is no any state defined for FSM.');
         }
 
         $this->_currentState = $this->_states[0];
     }
 }
-

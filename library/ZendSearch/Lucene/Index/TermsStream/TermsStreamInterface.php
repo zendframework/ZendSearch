@@ -23,62 +23,51 @@
 /**
  * @namespace
  */
-namespace Zend\Search\Lucene\Index;
+namespace Zend\Search\Lucene\Index\TermsStream;
+use Zend\Search\Lucene\Index;
 
 /**
- * A Zend_Search_Lucene_Index_TermInfo represents a record of information stored for a term.
- *
+ * @uses       \Zend\Search\Lucene\Index\Term
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class TermInfo
+interface TermsStreamInterface
 {
     /**
-     * The number of documents which contain the term.
-     *
-     * @var integer
+     * Reset terms stream.
      */
-    public $docFreq;
+    public function resetTermsStream();
 
     /**
-     * Data offset in a Frequencies file.
+     * Skip terms stream up to specified term preffix.
      *
-     * @var integer
+     * Prefix contains fully specified field info and portion of searched term
+     *
+     * @param \Zend\Search\Lucene\Index\Term $prefix
      */
-    public $freqPointer;
+    public function skipTo(Index\Term $prefix);
 
     /**
-     * Data offset in a Positions file.
+     * Scans terms dictionary and returns next term
      *
-     * @var integer
+     * @return \Zend\Search\Lucene\Index\Term|null
      */
-    public $proxPointer;
+    public function nextTerm();
 
     /**
-     * ScipData offset in a Frequencies file.
+     * Returns term in current position
      *
-     * @var integer
+     * @return \Zend\Search\Lucene\Index\Term|null
      */
-    public $skipOffset;
+    public function currentTerm();
 
     /**
-     * Term offset of the _next_ term in a TermDictionary file.
-     * Used only for Term Index
+     * Close terms stream
      *
-     * @var integer
+     * Should be used for resources clean up if stream is not read up to the end
      */
-    public $indexPointer;
-
-    public function __construct($docFreq, $freqPointer, $proxPointer, $skipOffset, $indexPointer = null)
-    {
-        $this->docFreq      = $docFreq;
-        $this->freqPointer  = $freqPointer;
-        $this->proxPointer  = $proxPointer;
-        $this->skipOffset   = $skipOffset;
-        $this->indexPointer = $indexPointer;
-    }
+    public function closeTermsStream();
 }
-

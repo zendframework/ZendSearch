@@ -20,6 +20,11 @@
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene;
+
+/**
  * Abstract Priority Queue
  *
  * It implements a priority queue.
@@ -34,7 +39,7 @@
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_PriorityQueue
+abstract class AbstractPriorityQueue
 {
     /**
      * Queue heap
@@ -167,4 +172,3 @@ abstract class Zend_Search_Lucene_PriorityQueue
      */
     abstract protected function _less($el1, $el2);
 }
-

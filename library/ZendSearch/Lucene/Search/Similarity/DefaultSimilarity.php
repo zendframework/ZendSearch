@@ -21,14 +21,19 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Search_Similarity
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Similarity;
+
+/**
+ * @uses       \Zend\Search\Lucene\Search\Similarity\Similarity
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Similarity_Default extends Zend_Search_Lucene_Search_Similarity
+class DefaultSimilarity extends Similarity
 {
 
     /**

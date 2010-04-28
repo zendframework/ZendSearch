@@ -21,15 +21,22 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Analysis_Analyzer_Common
- * @uses       Zend_Search_Lucene_Analysis_Token
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\Analyzer\Common\Text;
+use Zend\Search\Lucene\Analysis\Analyzer\Common;
+use Zend\Search\Lucene\Analysis;
+
+/**
+ * @uses       \Zend\Search\Lucene\Analysis\Analyzer\Common
+ * @uses       \Zend\Search\Lucene\Analysis\Token
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum extends Zend_Search_Lucene_Analysis_Analyzer_Common
+class Text extends Common\AbstractCommon
 {
     /**
      * Current position in a stream
@@ -61,7 +68,7 @@ class Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum extends Zend_Search_Lu
      * Get next token
      * Returns null at the end of stream
      *
-     * @return Zend_Search_Lucene_Analysis_Token|null
+     * @return \Zend\Search\Lucene\Analysis\Token|null
      */
     public function nextToken()
     {
@@ -69,8 +76,9 @@ class Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum extends Zend_Search_Lu
             return null;
         }
 
+
         do {
-            if (! preg_match('/[a-zA-Z0-9]+/', $this->_input, $match, PREG_OFFSET_CAPTURE, $this->_position)) {
+            if (! preg_match('/[a-zA-Z]+/', $this->_input, $match, PREG_OFFSET_CAPTURE, $this->_position)) {
                 // It covers both cases a) there are no matches (preg_match(...) === 0)
                 // b) error occured (preg_match(...) === FALSE)
                 return null;
@@ -82,7 +90,7 @@ class Zend_Search_Lucene_Analysis_Analyzer_Common_TextNum extends Zend_Search_Lu
 
             $this->_position = $endpos;
 
-            $token = $this->normalize(new Zend_Search_Lucene_Analysis_Token($str, $pos, $endpos));
+            $token = $this->normalize(new Analysis\Token($str, $pos, $endpos));
         } while ($token === null); // try again if token is skipped
 
         return $token;

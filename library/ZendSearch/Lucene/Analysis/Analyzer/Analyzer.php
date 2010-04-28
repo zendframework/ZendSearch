@@ -14,54 +14,57 @@
  *
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Search
+ * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
 
 /**
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Analysis\Analyzer;
+
+/**
+ * Analyzer manager.
+ *
+ * @uses       \Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @subpackage Search
+ * @subpackage Analysis
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Search_Lucene_Search_QueryEntry
+class Analyzer
 {
     /**
-     * Query entry boost factor
+     * The Analyzer implementation used by default.
      *
-     * @var float
+     * @var \Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface
      */
-    protected $_boost = 1.0;
-
+    private static $_defaultImpl = null;
 
     /**
-     * Process modifier ('~')
+     * Set the default Analyzer implementation used by indexing code.
      *
-     * @param mixed $parameter
+     * @param \Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface $analyzer
      */
-    abstract public function processFuzzyProximityModifier($parameter = null);
-
-
-    /**
-     * Transform entry to a subquery
-     *
-     * @param string $encoding
-     * @return Zend_Search_Lucene_Search_Query
-     */
-    abstract public function getQuery($encoding);
-
-    /**
-     * Boost query entry
-     *
-     * @param float $boostFactor
-     */
-    public function boost($boostFactor)
+    public static function setDefault(AnalyzerInterface $analyzer)
     {
-        $this->_boost *= $boostFactor;
+        self::$_defaultImpl = $analyzer;
     }
 
+    /**
+     * Return the default Analyzer implementation used by indexing code.
+     *
+     * @return \Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface
+     */
+    public static function getDefault()
+    {
+        if (self::$_defaultImpl === null) {
+            self::$_defaultImpl = new Common\Text\CaseInsensitive();
+        }
 
+        return self::$_defaultImpl;
+    }
 }

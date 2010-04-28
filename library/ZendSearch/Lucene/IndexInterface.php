@@ -20,16 +20,21 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Document
- * @uses       Zend_Search_Lucene_Index_DocsFilter
- * @uses       Zend_Search_Lucene_Index_Term
- * @uses       Zend_Search_Lucene_Index_TermsStream_Interface
+ * @namespace
+ */
+namespace Zend\Search\Lucene;
+
+/**
+ * @uses       \Zend\Search\Lucene\Document\Document
+ * @uses       \Zend\Search\Lucene\Index\DocsFilter
+ * @uses       \Zend\Search\Lucene\Index\Term
+ * @uses       \Zend\Search\Lucene\Index\TermsStream\TermsStreamInterface
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStream_Interface
+interface IndexInterface extends Index\TermsStream\TermsStreamInterface
 {
     /**
      * Get current generation number
@@ -38,11 +43,11 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * 0 means pre-2.1 index format
      * -1 means there are no segments files.
      *
-     * @param Zend_Search_Lucene_Storage_Directory $directory
+     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
      * @return integer
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
-    public static function getActualGeneration(Zend_Search_Lucene_Storage_Directory $directory);
+    public static function getActualGeneration(Storage\Directory\DirectoryInterface $directory);
 
     /**
      * Get segments file name
@@ -64,14 +69,14 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Index is converted to this format at the nearest upfdate time
      *
      * @param int $formatVersion
-     * @throws Zend_Search_Lucene_Exception
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function setFormatVersion($formatVersion);
 
     /**
      * Returns the Zend_Search_Lucene_Storage_Directory instance for this index.
      *
-     * @return Zend_Search_Lucene_Storage_Directory
+     * @return \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
      */
     public function getDirectory();
 
@@ -103,55 +108,15 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      *
      * @param integer $id
      * @return boolean
-     * @throws Zend_Search_Lucene_Exception    Exception is thrown if $id is out of the range
+     * @throws \Zend\Search\Lucene\Exception    Exception is thrown if $id is out of the range
      */
     public function isDeleted($id);
-
-    /**
-     * Set default search field.
-     *
-     * Null means, that search is performed through all fields by default
-     *
-     * Default value is null
-     *
-     * @param string $fieldName
-     */
-    public static function setDefaultSearchField($fieldName);
-
-    /**
-     * Get default search field.
-     *
-     * Null means, that search is performed through all fields by default
-     *
-     * @return string
-     */
-    public static function getDefaultSearchField();
-
-    /**
-     * Set result set limit.
-     *
-     * 0 (default) means no limit
-     *
-     * @param integer $limit
-     */
-    public static function setResultSetLimit($limit);
-
-    /**
-     * Set result set limit.
-     *
-     * 0 means no limit
-     *
-     * @return integer
-     */
-    public static function getResultSetLimit();
 
     /**
      * Retrieve index maxBufferedDocs option
      *
      * maxBufferedDocs is a minimal number of documents required before
      * the buffered in-memory documents are written into a new Segment
-     *
-     * Default value is 10
      *
      * @return integer
      */
@@ -162,8 +127,6 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      *
      * maxBufferedDocs is a minimal number of documents required before
      * the buffered in-memory documents are written into a new Segment
-     *
-     * Default value is 10
      *
      * @param integer $maxBufferedDocs
      */
@@ -177,8 +140,6 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * as this limits the length of pauses while indexing to a few seconds.
      * Larger values are best for batched indexing and speedier searches.
      *
-     * Default value is PHP_INT_MAX
-     *
      * @return integer
      */
     public function getMaxMergeDocs();
@@ -190,8 +151,6 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Small values (e.g., less than 10,000) are best for interactive indexing,
      * as this limits the length of pauses while indexing to a few seconds.
      * Larger values are best for batched indexing and speedier searches.
-     *
-     * Default value is PHP_INT_MAX
      *
      * @param integer $maxMergeDocs
      */
@@ -210,8 +169,6 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Thus larger values (> 10) are best for batch index creation,
      * and smaller values (< 10) for indices that are interactively maintained.
      *
-     * Default value is 10
-     *
      * @return integer
      */
     public function getMergeFactor();
@@ -229,8 +186,6 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Thus larger values (> 10) are best for batch index creation,
      * and smaller values (< 10) for indices that are interactively maintained.
      *
-     * Default value is 10
-     *
      * @param integer $maxMergeDocs
      */
     public function setMergeFactor($mergeFactor);
@@ -241,8 +196,8 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Input is a string or Zend_Search_Lucene_Search_Query.
      *
      * @param mixed $query
-     * @return array Zend_Search_Lucene_Search_QueryHit
-     * @throws Zend_Search_Lucene_Exception
+     * @return array \Zend\Search\Lucene\Search\QueryHit
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function find($query);
 
@@ -258,8 +213,8 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Returns a Zend_Search_Lucene_Document object for the document
      * number $id in this index.
      *
-     * @param integer|Zend_Search_Lucene_Search_QueryHit $id
-     * @return Zend_Search_Lucene_Document
+     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
+     * @return \Zend\Search\Lucene\Document\Document
      */
     public function getDocument($id);
 
@@ -268,19 +223,19 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      *
      * Is used for query optimization.
      *
-     * @param Zend_Search_Lucene_Index_Term $term
+     * @param \Zend\Search\Lucene\Index\Term $term
      * @return boolean
      */
-    public function hasTerm(Zend_Search_Lucene_Index_Term $term);
+    public function hasTerm(Index\Term $term);
 
     /**
      * Returns IDs of all the documents containing term.
      *
-     * @param Zend_Search_Lucene_Index_Term $term
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
-    public function termDocs(Zend_Search_Lucene_Index_Term $term, $docsFilter = null);
+    public function termDocs(Index\Term $term, $docsFilter = null);
 
     /**
      * Returns documents filter for all documents containing term.
@@ -288,44 +243,44 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * It performs the same operation as termDocs, but return result as
      * Zend_Search_Lucene_Index_DocsFilter object
      *
-     * @param Zend_Search_Lucene_Index_Term $term
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
-     * @return Zend_Search_Lucene_Index_DocsFilter
+     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @return \Zend\Search\Lucene\Index\DocsFilter
      */
-    public function termDocsFilter(Zend_Search_Lucene_Index_Term $term, $docsFilter = null);
+    public function termDocsFilter(Index\Term $term, $docsFilter = null);
 
     /**
      * Returns an array of all term freqs.
      * Return array structure: array( docId => freq, ...)
      *
-     * @param Zend_Search_Lucene_Index_Term $term
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      * @return integer
      */
-    public function termFreqs(Zend_Search_Lucene_Index_Term $term, $docsFilter = null);
+    public function termFreqs(Index\Term $term, $docsFilter = null);
 
     /**
      * Returns an array of all term positions in the documents.
      * Return array structure: array( docId => array( pos1, pos2, ...), ...)
      *
-     * @param Zend_Search_Lucene_Index_Term $term
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
-    public function termPositions(Zend_Search_Lucene_Index_Term $term, $docsFilter = null);
+    public function termPositions(Index\Term $term, $docsFilter = null);
 
     /**
      * Returns the number of documents in this index containing the $term.
      *
-     * @param Zend_Search_Lucene_Index_Term $term
+     * @param \Zend\Search\Lucene\Index\Term $term
      * @return integer
      */
-    public function docFreq(Zend_Search_Lucene_Index_Term $term);
+    public function docFreq(Index\Term $term);
 
     /**
      * Retrive similarity used by index reader
      *
-     * @return Zend_Search_Lucene_Search_Similarity
+     * @return \Zend\Search\Lucene\Search\Similarity\Similarity
      */
     public function getSimilarity();
 
@@ -349,17 +304,17 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Deletes a document from the index.
      * $id is an internal document id
      *
-     * @param integer|Zend_Search_Lucene_Search_QueryHit $id
-     * @throws Zend_Search_Lucene_Exception
+     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
+     * @throws \Zend\Search\Lucene\Exception
      */
     public function delete($id);
 
     /**
      * Adds a document to this index.
      *
-     * @param Zend_Search_Lucene_Document $document
+     * @param \Zend\Search\Lucene\Document\Document $document
      */
-    public function addDocument(Zend_Search_Lucene_Document $document);
+    public function addDocument(Document\Document $document);
 
     /**
      * Commit changes resulting from delete() or undeleteAll() operations.
@@ -384,21 +339,4 @@ interface Zend_Search_Lucene_Interface extends Zend_Search_Lucene_Index_TermsStr
      * Undeletes all documents currently marked as deleted in this index.
      */
     public function undeleteAll();
-
-
-    /**
-     * Add reference to the index object
-     *
-     * @internal
-     */
-    public function addReference();
-
-    /**
-     * Remove reference from the index object
-     *
-     * When reference count becomes zero, index is closed and resources are cleaned up
-     *
-     * @internal
-     */
-    public function removeReference();
 }

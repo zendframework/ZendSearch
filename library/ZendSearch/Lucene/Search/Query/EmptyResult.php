@@ -21,23 +21,31 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Search_Query
- * @uses       Zend_Search_Lucene_Search_Weight_Empty
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Query;
+use Zend\Search\Lucene;
+use Zend\Search\Lucene\Search\Weight;
+use Zend\Search\Lucene\Search\Highlighter;
+
+/**
+ * @uses       \Zend\Search\Lucene\Search\Query\AbstractQuery
+ * @uses       \Zend\Search\Lucene\Search\Weight\EmptyResultWeight
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Query
+class EmptyResult extends AbstractQuery
 {
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\IndexInterface $index
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function rewrite(Zend_Search_Lucene_Interface $index)
+    public function rewrite(Lucene\IndexInterface $index)
     {
         return $this;
     }
@@ -45,34 +53,34 @@ class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Qu
     /**
      * Optimize query in the context of specified index
      *
-     * @param Zend_Search_Lucene_Interface $index
-     * @return Zend_Search_Lucene_Search_Query
+     * @param \Zend\Search\Lucene\IndexInterface $index
+     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
      */
-    public function optimize(Zend_Search_Lucene_Interface $index)
+    public function optimize(Lucene\IndexInterface $index)
     {
-        // "Empty" query is a primitive query and don't need to be optimized
+        // "EmptyResult" query is a primitive query and don't need to be optimized
         return $this;
     }
 
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @return Zend_Search_Lucene_Search_Weight
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @return \Zend\Search\Lucene\Search\Weight\Weight
      */
-    public function createWeight(Zend_Search_Lucene_Interface $reader)
+    public function createWeight(Lucene\IndexInterface $reader)
     {
-        return new Zend_Search_Lucene_Search_Weight_Empty();
+        return new Weight\EmptyResultWeight();
     }
 
     /**
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param Zend_Search_Lucene_Interface $reader
-     * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
+     * @param \Zend\Search\Lucene\IndexInterface $reader
+     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
      */
-    public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null)
+    public function execute(Lucene\IndexInterface $reader, $docsFilter = null)
     {
         // Do nothing
     }
@@ -93,10 +101,10 @@ class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Qu
      * Score specified document
      *
      * @param integer $docId
-     * @param Zend_Search_Lucene_Interface $reader
+     * @param \Zend\Search\Lucene\IndexInterface $reader
      * @return float
      */
-    public function score($docId, Zend_Search_Lucene_Interface $reader)
+    public function score($docId, Lucene\IndexInterface $reader)
     {
         return 0;
     }
@@ -114,9 +122,9 @@ class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Qu
     /**
      * Query specific matches highlighting
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param \Zend\Search\Lucene\Search\Highlighter\HighlighterInterface $highlighter  Highlighter object (also contains doc for highlighting)
      */
-    protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
+    protected function _highlightMatches(Highlighter\HighlighterInterface $highlighter)
     {
         // Do nothing
     }
@@ -131,4 +139,3 @@ class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Qu
         return '<EmptyQuery>';
     }
 }
-

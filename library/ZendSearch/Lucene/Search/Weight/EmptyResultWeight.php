@@ -21,14 +21,19 @@
  */
 
 /**
- * @uses       Zend_Search_Lucene_Search_Weight
+ * @namespace
+ */
+namespace Zend\Search\Lucene\Search\Weight;
+
+/**
+ * @uses       \Zend\Search\Lucene\Search\Weight\AbstractWeight
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Search_Lucene_Search_Weight_Empty extends Zend_Search_Lucene_Search_Weight
+class EmptyResultWeight extends AbstractWeight
 {
     /**
      * The sum of squared weights of contained query clauses.
@@ -50,4 +55,3 @@ class Zend_Search_Lucene_Search_Weight_Empty extends Zend_Search_Lucene_Search_W
     {
     }
 }
-
