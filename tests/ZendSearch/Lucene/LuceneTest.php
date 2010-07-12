@@ -20,17 +20,19 @@
  * @version    $Id$
  */
 
+if (!defined('PHPUnit_MAIN_METHOD')) {
+    define('PHPUnit_MAIN_METHOD', 'Zend_Search_Lucene_LuceneTest::main');
+}
+
 /**
- * @namespace
+ * Test helper
  */
-namespace ZendTest\Search\Lucene;
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Index;
+require_once dirname(__FILE__) . '/../../../TestHelper.php';
 
 /**
  * Zend_Search_Lucene
  */
+require_once 'Zend/Search/Lucene.php';
 
 /**
  * @category   Zend
@@ -40,8 +42,14 @@ use Zend\Search\Lucene\Index;
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Search_Lucene
  */
-class IndexTest extends \PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_LuceneTest extends PHPUnit_Framework_TestCase
 {
+    public static function main()
+    {
+        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
+        $result = PHPUnit_TextUI_TestRunner::run($suite);
+    }
+
     private function _clearDirectory($dirName)
     {
         if (!file_exists($dirName) || !is_dir($dirName))  {
@@ -60,62 +68,62 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
-        $this->assertTrue($index instanceof Lucene\SearchIndex);
+        $this->assertTrue($index instanceof Zend_Search_Lucene_Interface);
 
         $this->_clearDirectory(dirname(__FILE__) . '/_index/_files');
     }
 
     public function testOpen()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertTrue($index instanceof Lucene\SearchIndex);
+        $this->assertTrue($index instanceof Zend_Search_Lucene_Interface);
     }
 
     public function testOpenNonCompound()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_nonCompoundIndexFiles');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_nonCompoundIndexFiles');
 
-        $this->assertTrue($index instanceof Lucene\SearchIndex);
+        $this->assertTrue($index instanceof Zend_Search_Lucene_Interface);
     }
 
     public function testDefaultSearchField()
     {
-        $currentDefaultSearchField = Lucene\Lucene::getDefaultSearchField();
+        $currentDefaultSearchField = Zend_Search_Lucene::getDefaultSearchField();
         $this->assertEquals($currentDefaultSearchField, null);
 
-        Lucene\Lucene::setDefaultSearchField('anotherField');
-        $this->assertEquals(Lucene\Lucene::getDefaultSearchField(), 'anotherField');
+        Zend_Search_Lucene::setDefaultSearchField('anotherField');
+        $this->assertEquals(Zend_Search_Lucene::getDefaultSearchField(), 'anotherField');
 
-        Lucene\Lucene::setDefaultSearchField($currentDefaultSearchField);
+        Zend_Search_Lucene::setDefaultSearchField($currentDefaultSearchField);
     }
 
     public function testCount()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertEquals($index->count(), 10);
     }
 
     public function testMaxDoc()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertEquals($index->maxDoc(), 10);
     }
 
     public function testNumDocs()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertEquals($index->numDocs(), 9);
     }
 
     public function testIsDeleted()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertFalse($index->isDeleted(3));
         $this->assertTrue($index->isDeleted(6));
@@ -123,7 +131,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testMaxBufferedDocs()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $currentMaxBufferedDocs = $index->getMaxBufferedDocs();
 
@@ -135,7 +143,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testMaxMergeDocs()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $currentMaxMergeDocs = $index->getMaxMergeDocs();
 
@@ -147,7 +155,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testMergeFactor()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $currentMergeFactor = $index->getMergeFactor();
 
@@ -159,7 +167,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testFind()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $hits = $index->find('submitting');
         $this->assertEquals(count($hits), 3);
@@ -167,42 +175,42 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFieldNames()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertTrue(array_values($index->getFieldNames()) == array('path', 'modified', 'contents'));
     }
 
     public function testGetDocument()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $doc = $index->getDocument(3);
 
-        $this->assertTrue($doc instanceof Document);
+        $this->assertTrue($doc instanceof Zend_Search_Lucene_Document);
         $this->assertEquals($doc->path, 'IndexSource/about-pear.html');
     }
 
     public function testHasTerm()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertTrue($index->hasTerm(new Index\Term('packages', 'contents')));
-        $this->assertFalse($index->hasTerm(new Index\Term('nonusedword', 'contents')));
+        $this->assertTrue($index->hasTerm(new Zend_Search_Lucene_Index_Term('packages', 'contents')));
+        $this->assertFalse($index->hasTerm(new Zend_Search_Lucene_Index_Term('nonusedword', 'contents')));
     }
 
     public function testTermDocs()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertTrue(array_values( $index->termDocs(new Index\Term('packages', 'contents')) ) ==
+        $this->assertTrue(array_values( $index->termDocs(new Zend_Search_Lucene_Index_Term('packages', 'contents')) ) ==
                           array(0, 2, 6, 7, 8));
     }
 
     public function testTermPositions()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertTrue($index->termPositions(new Index\Term('packages', 'contents')) ==
+        $this->assertTrue($index->termPositions(new Zend_Search_Lucene_Index_Term('packages', 'contents')) ==
                           array(0 => array(174),
                                 2 => array(40, 742),
                                 6 => array(6, 156, 163),
@@ -212,28 +220,28 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testDocFreq()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertEquals($index->docFreq(new Index\Term('packages', 'contents')), 5);
+        $this->assertEquals($index->docFreq(new Zend_Search_Lucene_Index_Term('packages', 'contents')), 5);
     }
 
     public function testGetSimilarity()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
-        $this->assertTrue($index->getSimilarity() instanceof \Zend\Search\Lucene\Search\Similarity);
+        $this->assertTrue($index->getSimilarity() instanceof Zend_Search_Lucene_Search_Similarity);
     }
 
     public function testNorm()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertTrue(abs($index->norm(3, 'contents') - 0.054688) < 0.000001);
     }
 
     public function testHasDeletions()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertTrue($index->hasDeletions());
     }
@@ -258,7 +266,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         closedir($indexDir);
 
 
-        $index = Lucene\Lucene::open($tempIndexDir);
+        $index = Zend_Search_Lucene::open($tempIndexDir);
 
         $this->assertFalse($index->isDeleted(2));
         $index->delete(2);
@@ -268,7 +276,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         unset($index);
 
-        $index1 = Lucene\Lucene::open($tempIndexDir);
+        $index1 = Zend_Search_Lucene::open($tempIndexDir);
         $this->assertTrue($index1->isDeleted(2));
         unset($index1);
 
@@ -277,7 +285,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDocument()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
         $indexSourceDir = dirname(__FILE__) . '/_indexSource/_files';
         $dir = opendir($indexSourceDir);
@@ -290,9 +298,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             }
 
             // Create new Document from a file
-            $doc = new Document();
-            $doc->addField(Document\Field::Text('path', 'IndexSource/' . $file));
-            $doc->addField(Document\Field::Keyword( 'modified', filemtime($indexSourceDir . '/' . $file) ));
+            $doc = new Zend_Search_Lucene_Document();
+            $doc->addField(Zend_Search_Lucene_Field::Text('path', 'IndexSource/' . $file));
+            $doc->addField(Zend_Search_Lucene_Field::Keyword( 'modified', filemtime($indexSourceDir . '/' . $file) ));
 
             $f = fopen($indexSourceDir . '/' . $file,'rb');
             $byteCount = filesize($indexSourceDir . '/' . $file);
@@ -304,7 +312,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             }
             fclose($f);
 
-            $doc->addField(Document\Field::Text('contents', $data, 'ISO-8859-1'));
+            $doc->addField(Zend_Search_Lucene_Field::Text('contents', $data, 'ISO-8859-1'));
 
             // Add document to the index
             $index->addDocument($doc);
@@ -313,15 +321,15 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         unset($index);
 
-        $index1 = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
-        $this->assertTrue($index1 instanceof Lucene\SearchIndex);
+        $index1 = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $this->assertTrue($index1 instanceof Zend_Search_Lucene_Interface);
 
         $this->_clearDirectory(dirname(__FILE__) . '/_index/_files');
     }
 
     public function testOptimize()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
         $index->setMaxBufferedDocs(2);
 
@@ -336,9 +344,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             }
 
             // Create new Document from a file
-            $doc = new Document();
-            $doc->addField(Document\Field::Keyword('path', 'IndexSource/' . $file));
-            $doc->addField(Document\Field::Keyword( 'modified', filemtime($indexSourceDir . '/' . $file) ));
+            $doc = new Zend_Search_Lucene_Document();
+            $doc->addField(Zend_Search_Lucene_Field::Keyword('path', 'IndexSource/' . $file));
+            $doc->addField(Zend_Search_Lucene_Field::Keyword( 'modified', filemtime($indexSourceDir . '/' . $file) ));
 
             $f = fopen($indexSourceDir . '/' . $file,'rb');
             $byteCount = filesize($indexSourceDir . '/' . $file);
@@ -350,7 +358,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             }
             fclose($f);
 
-            $doc->addField(Document\Field::Text('contents', $data, 'ISO-8859-1'));
+            $doc->addField(Zend_Search_Lucene_Field::Text('contents', $data, 'ISO-8859-1'));
 
             // Add document to the index
             $index->addDocument($doc);
@@ -358,9 +366,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         closedir($dir);
         unset($index);
 
-        $index1 = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
-        $this->assertTrue($index1 instanceof Lucene\SearchIndex);
-        $pathTerm = new Index\Term('IndexSource/contributing.html', 'path');
+        $index1 = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $this->assertTrue($index1 instanceof Zend_Search_Lucene_Interface);
+        $pathTerm = new Zend_Search_Lucene_Index_Term('IndexSource/contributing.html', 'path');
         $contributingDocs = $index1->termDocs($pathTerm);
         foreach ($contributingDocs as $id) {
             $index1->delete($id);
@@ -368,8 +376,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $index1->optimize();
         unset($index1);
 
-        $index2 = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
-        $this->assertTrue($index2 instanceof Lucene\SearchIndex);
+        $index2 = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $this->assertTrue($index2 instanceof Zend_Search_Lucene_Interface);
 
         $hits = $index2->find('submitting');
         $this->assertEquals(count($hits), 3);
@@ -379,14 +387,14 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testTerms()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $this->assertEquals(count($index->terms()), 607);
     }
 
     public function testTermsStreamInterface()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $terms = array();
 
@@ -401,12 +409,12 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testTermsStreamInterfaceSkipTo()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $terms = array();
 
         $index->resetTermsStream();
-        $index->skipTo(new Index\Term('one', 'contents'));
+        $index->skipTo(new Zend_Search_Lucene_Index_Term('one', 'contents'));
 
         while ($index->currentTerm() !== null) {
             $terms[] = $index->currentTerm();
@@ -418,12 +426,12 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testTermsStreamInterfaceSkipToTermsRetrieving()
     {
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_indexSample/_files');
 
         $terms = array();
 
         $index->resetTermsStream();
-        $index->skipTo(new Index\Term('one', 'contents'));
+        $index->skipTo(new Zend_Search_Lucene_Index_Term('one', 'contents'));
 
         $terms[] = $index->currentTerm();
         $terms[] = $index->nextTerm();
@@ -432,28 +440,28 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $index->closeTermsStream();
 
         $this->assertTrue($terms ==
-                          array(new Index\Term('one', 'contents'),
-                                new Index\Term('only', 'contents'),
-                                new Index\Term('open', 'contents'),
+                          array(new Zend_Search_Lucene_Index_Term('one', 'contents'),
+                                new Zend_Search_Lucene_Index_Term('only', 'contents'),
+                                new Zend_Search_Lucene_Index_Term('open', 'contents'),
                                ));
     }
 
     public function testTermsStreamInterfaceSkipToTermsRetrievingZeroTermsCase()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
         // Zero terms
-        $doc = new Document();
-        $doc->addField(Document\Field::Text('contents', ''));
+        $doc = new Zend_Search_Lucene_Document();
+        $doc->addField(Zend_Search_Lucene_Field::Text('contents', ''));
         $index->addDocument($doc);
 
         unset($index);
 
 
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
 
         $index->resetTermsStream();
-        $index->skipTo(new Index\Term('term', 'contents'));
+        $index->skipTo(new Zend_Search_Lucene_Index_Term('term', 'contents'));
 
         $this->assertTrue($index->currentTerm() === null);
 
@@ -464,20 +472,20 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testTermsStreamInterfaceSkipToTermsRetrievingOneTermsCase()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
         // Zero terms
-        $doc = new Document();
-        $doc->addField(Document\Field::Text('contents', 'someterm'));
+        $doc = new Zend_Search_Lucene_Document();
+        $doc->addField(Zend_Search_Lucene_Field::Text('contents', 'someterm'));
         $index->addDocument($doc);
 
         unset($index);
 
 
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
 
         $index->resetTermsStream();
-        $index->skipTo(new Index\Term('term', 'contents'));
+        $index->skipTo(new Zend_Search_Lucene_Index_Term('term', 'contents'));
 
         $this->assertTrue($index->currentTerm() === null);
 
@@ -488,22 +496,22 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testTermsStreamInterfaceSkipToTermsRetrievingTwoTermsCase()
     {
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
         // Zero terms
-        $doc = new Document();
-        $doc->addField(Document\Field::Text('contents', 'someterm word'));
+        $doc = new Zend_Search_Lucene_Document();
+        $doc->addField(Zend_Search_Lucene_Field::Text('contents', 'someterm word'));
         $index->addDocument($doc);
 
         unset($index);
 
 
-        $index = Lucene\Lucene::open(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::open(dirname(__FILE__) . '/_index/_files');
 
         $index->resetTermsStream();
-        $index->skipTo(new Index\Term('term', 'contents'));
+        $index->skipTo(new Zend_Search_Lucene_Index_Term('term', 'contents'));
 
-        $this->assertTrue($index->currentTerm() == new Index\Term('word', 'contents'));
+        $this->assertTrue($index->currentTerm() == new Zend_Search_Lucene_Index_Term('word', 'contents'));
 
         $index->closeTermsStream();
 
@@ -517,15 +525,19 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     {
         //$this->_clearDirectory(dirname(__FILE__) . '/_index/_files');
 
-        $index = Lucene\Lucene::create(dirname(__FILE__) . '/_index/_files');
+        $index = Zend_Search_Lucene::create(dirname(__FILE__) . '/_index/_files');
 
-        $document = new Document;
-        $document->addField(Document\Field::Keyword('_id', 'myId'));
-        $document->addField(Document\Field::Keyword('bla', 'blubb'));
+        $document = new Zend_Search_Lucene_Document;
+        $document->addField(Zend_Search_Lucene_Field::Keyword('_id', 'myId'));
+        $document->addField(Zend_Search_Lucene_Field::Keyword('bla', 'blubb'));
         $index->addDocument($document);
 
         $this->assertFalse($index->isDeleted(0));
 
         $this->_clearDirectory(dirname(__FILE__) . '/_index/_files');
     }
+}
+
+if (PHPUnit_MAIN_METHOD == 'Zend_Search_Lucene_LuceneTest::main') {
+    Zend_Search_Lucene_LuceneTest::main();
 }
