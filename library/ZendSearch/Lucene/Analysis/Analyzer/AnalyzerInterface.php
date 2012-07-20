@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\Analyzer;
+namespace ZendSearch\Lucene\Analysis\Analyzer;
 
 /**
  * An AnalyzerInterface is used to analyze text.
@@ -21,7 +21,7 @@ interface AnalyzerInterface
 {
     /**
      * Tokenize text to terms
-     * Returns array of Zend\Search\Lucene\Analysis\Token objects
+     * Returns array of ZendSearch\Lucene\Analysis\Token objects
      *
      * Tokens are returned in UTF-8 (internal Zend_Search_Lucene encoding)
      *
@@ -50,7 +50,7 @@ interface AnalyzerInterface
      *
      * Tokens are returned in UTF-8 (internal Zend_Search_Lucene encoding)
      *
-     * @return \Zend\Search\Lucene\Analysis\Token|null
+     * @return \ZendSearch\Lucene\Analysis\Token|null
      */
     public function nextToken();
 }

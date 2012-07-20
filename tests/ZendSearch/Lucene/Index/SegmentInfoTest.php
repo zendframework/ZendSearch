@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene\Index;
+namespace ZendSearchTest\Lucene\Index;
 
-use Zend\Search\Lucene\Storage\Directory;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Storage\File;
+use ZendSearch\Lucene\Storage\Directory;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Storage\File;
 
 /**
  * @category   Zend

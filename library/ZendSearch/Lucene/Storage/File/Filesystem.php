@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Storage\File;
+namespace ZendSearch\Lucene\Storage\File;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -33,8 +33,8 @@ class Filesystem extends AbstractFile
      *
      * @param string $filename
      * @param string $mode
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function __construct($filename, $mode='r+b')
     {

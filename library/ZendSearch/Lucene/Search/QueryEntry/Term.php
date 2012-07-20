@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\QueryEntry;
+namespace ZendSearch\Lucene\Search\QueryEntry;
 
 /**
  * @category   Zend
@@ -71,7 +71,7 @@ class Term extends AbstractQueryEntry
         if ($parameter !== null) {
             $this->_similarity = $parameter;
         } else {
-            $this->_similarity = \Zend\Search\Lucene\Search\Query\Fuzzy::DEFAULT_MIN_SIMILARITY;
+            $this->_similarity = \ZendSearch\Lucene\Search\Query\Fuzzy::DEFAULT_MIN_SIMILARITY;
         }
     }
 
@@ -79,13 +79,13 @@ class Term extends AbstractQueryEntry
      * Transform entry to a subquery
      *
      * @param string $encoding
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function getQuery($encoding)
     {
         if ($this->_fuzzyQuery) {
-            $query = new \Zend\Search\Lucene\Search\Query\Preprocessing\Fuzzy($this->_term,
+            $query = new \ZendSearch\Lucene\Search\Query\Preprocessing\Fuzzy($this->_term,
                                                                              $encoding,
                                                                              ($this->_field !== null)?
                                                                                   iconv($encoding, 'UTF-8', $this->_field) :
@@ -97,7 +97,7 @@ class Term extends AbstractQueryEntry
         }
 
 
-        $query = new \Zend\Search\Lucene\Search\Query\Preprocessing\Term($this->_term,
+        $query = new \ZendSearch\Lucene\Search\Query\Preprocessing\Term($this->_term,
                                                                         $encoding,
                                                                         ($this->_field !== null)?
                                                                               iconv($encoding, 'UTF-8', $this->_field) :

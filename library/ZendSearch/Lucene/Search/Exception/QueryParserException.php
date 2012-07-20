@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Exception;
+namespace ZendSearch\Lucene\Search\Exception;
 
-use Zend\Search\Lucene\Exception;
+use ZendSearch\Lucene\Exception;
 
 /**
  * @category   Zend

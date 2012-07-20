@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\TokenFilter;
+namespace ZendSearch\Lucene\Analysis\TokenFilter;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Token;
-use Zend\Search\Lucene\Exception\ExtensionNotLoadedException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Token;
+use ZendSearch\Lucene\Exception\ExtensionNotLoadedException;
 
 /**
  * Lower case Token filter.
@@ -25,7 +25,7 @@ class LowerCaseUtf8 implements TokenFilterInterface
 {
     /**
      * Object constructor
-     * @throws \Zend\Search\Lucene\Exception\ExtensionNotLoadedException
+     * @throws \ZendSearch\Lucene\Exception\ExtensionNotLoadedException
      */
     public function __construct()
     {
@@ -38,8 +38,8 @@ class LowerCaseUtf8 implements TokenFilterInterface
     /**
      * Normalize Token or remove it (if null is returned)
      *
-     * @param \Zend\Search\Lucene\Analysis\Token $srcToken
-     * @return \Zend\Search\Lucene\Analysis\Token
+     * @param \ZendSearch\Lucene\Analysis\Token $srcToken
+     * @return \ZendSearch\Lucene\Analysis\Token
      */
     public function normalize(Token $srcToken)
     {

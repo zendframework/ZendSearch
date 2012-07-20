@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -107,7 +107,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc instanceof Document\HTML);
 
         $doc->highlightExtended('document',
-                                array('\ZendTest\Search\Lucene\DocHighlightingContainer',
+                                array('\ZendSearchTest\Lucene\DocHighlightingContainer',
                                       'extendedHighlightingCallback'),
                                 array('style="color:black;background-color:#ff66ff"',
                                       '(!!!)'));
@@ -131,7 +131,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($doc instanceof Document\HTML);
 
         $doc->highlightExtended('document',
-                                array('\ZendTest\Search\Lucene\DocHighlightingContainer',
+                                array('\ZendSearchTest\Lucene\DocHighlightingContainer',
                                       'extendedHighlightingCallback'),
                                 array('style="color:black;background-color:#ff66ff"',
                                       '<h3>(!!!)' /* Wrong HTML here, <h3> tag is not closed */));

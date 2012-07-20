@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document\Exception;
+namespace ZendSearch\Lucene\Document\Exception;
 
-interface ExceptionInterface extends \Zend\Search\Lucene\Exception\ExceptionInterface
+interface ExceptionInterface extends \ZendSearch\Lucene\Exception\ExceptionInterface
 {}

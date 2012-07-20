@@ -8,15 +8,15 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query\Preprocessing;
+namespace ZendSearch\Lucene\Search\Query\Preprocessing;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Analyzer;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search;
-use Zend\Search\Lucene\Search\Exception\QueryParserException;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
-use Zend\Search\Lucene\Search\Query;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Analyzer;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search;
+use ZendSearch\Lucene\Search\Exception\QueryParserException;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene\Search\Query;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -82,9 +82,9 @@ class Fuzzy extends AbstractPreprocessing
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {

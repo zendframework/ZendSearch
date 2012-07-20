@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
-use Zend\Search\Lucene\Exception\UnsupportedMethodCallException;
+use ZendSearch\Lucene\Exception\UnsupportedMethodCallException;
 
 /**
  * @category   Zend
@@ -49,7 +49,7 @@ class Lucene
      * Create index
      *
      * @param mixed $directory
-     * @return \Zend\Search\Lucene\SearchIndexInterface
+     * @return \ZendSearch\Lucene\SearchIndexInterface
      */
     public static function create($directory)
     {
@@ -60,7 +60,7 @@ class Lucene
      * Open index
      *
      * @param mixed $directory
-     * @return \Zend\Search\Lucene\SearchIndexInterface
+     * @return \ZendSearch\Lucene\SearchIndexInterface
      */
     public static function open($directory)
     {
@@ -68,11 +68,11 @@ class Lucene
     }
 
     /**
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      */
     public function __construct()
     {
-        throw new UnsupportedMethodCallException('\Zend\Search\Lucene class is the only container for static methods. Use Lucene::open() or Lucene::create() methods.');
+        throw new UnsupportedMethodCallException('\ZendSearch\Lucene class is the only container for static methods. Use Lucene::open() or Lucene::create() methods.');
     }
 
     /**

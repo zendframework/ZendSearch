@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene\Search\Query;
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Search;
-use Zend\Search\Lucene\Document;
+use ZendSearch\Lucene\Search\Query;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Search;
+use ZendSearch\Lucene\Document;
 
 /**
  * @category   Zend
@@ -309,7 +309,7 @@ class Search23Test extends \PHPUnit_Framework_TestCase
     {
         $index = Lucene\Lucene::open(__DIR__ . '/_index23Sample/_files');
 
-        $this->assertEquals(count(\Zend\Search\Lucene\Analysis\Analyzer\Analyzer::getDefault()->tokenize('123456787654321')), 0);
+        $this->assertEquals(count(\ZendSearch\Lucene\Analysis\Analyzer\Analyzer::getDefault()->tokenize('123456787654321')), 0);
 
 
         $hits = $index->find('"PEAR developers" AND Home AND 123456787654321');

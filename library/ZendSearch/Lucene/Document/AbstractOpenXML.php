@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document;
+namespace ZendSearch\Lucene\Document;
 
-use Zend\Search\Lucene\Document;
+use ZendSearch\Lucene\Document;
 
 /**
  * OpenXML document.

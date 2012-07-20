@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search;
+namespace ZendSearch\Lucene\Search;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\ExceptionInterface;
-use Zend\Search\Lucene\Exception\UnexpectedValueException;
-use Zend\Search\Lucene\Search\Exception\QueryParserException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\ExceptionInterface;
+use ZendSearch\Lucene\Exception\UnexpectedValueException;
+use ZendSearch\Lucene\Search\Exception\QueryParserException;
 
 /**
  * @category   Zend
@@ -125,8 +125,8 @@ class QueryParserContext
      * Set sign for next entry
      *
      * @param integer $sign
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
-     * @throws \Zend\Search\Lucene\Exception\UnexpectedValueException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Exception\UnexpectedValueException
      */
     public function setNextEntrySign($sign)
     {
@@ -149,7 +149,7 @@ class QueryParserContext
     /**
      * Add entry to a query
      *
-     * @param \Zend\Search\Lucene\Search\QueryEntry\AbstractQueryEntry $entry
+     * @param \ZendSearch\Lucene\Search\QueryEntry\AbstractQueryEntry $entry
      */
     public function addEntry(QueryEntry\AbstractQueryEntry $entry)
     {
@@ -167,7 +167,7 @@ class QueryParserContext
     /**
      * Process fuzzy search or proximity search modifier
      *
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function processFuzzyProximityModifier($parameter = null)
     {
@@ -192,7 +192,7 @@ class QueryParserContext
      * Set boost factor to the entry
      *
      * @param float $boostFactor
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function boost($boostFactor)
     {
@@ -217,7 +217,7 @@ class QueryParserContext
      * Process logical operator
      *
      * @param integer $operator
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function addLogicalOperator($operator)
     {
@@ -235,7 +235,7 @@ class QueryParserContext
      * Generate 'signs style' query from the context
      * '+term1 term2 -term3 +(<subquery1>) ...'
      *
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function _signStyleExpressionQuery()
     {
@@ -260,8 +260,8 @@ class QueryParserContext
      * Generate 'boolean style' query from the context
      * 'term1 and term2   or   term3 and (<subquery1>) and not (<subquery2>)'
      *
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     private function _booleanExpressionQuery()
     {
@@ -362,7 +362,7 @@ class QueryParserContext
     /**
      * Generate query from current context
      *
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function getQuery()
     {

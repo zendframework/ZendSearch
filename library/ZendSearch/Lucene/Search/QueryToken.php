@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search;
+namespace ZendSearch\Lucene\Search;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -111,7 +111,7 @@ class QueryToken
      * @param integer $tokenCategory
      * @param string  $tokText
      * @param integer $position
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function __construct($tokenCategory, $tokenText, $position)
     {

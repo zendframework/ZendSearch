@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
 /**
  * @category   Zend

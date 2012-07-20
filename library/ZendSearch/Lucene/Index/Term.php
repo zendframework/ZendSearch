@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 
 /**
  * A Term represents a word from text.  This is the unit of search.  It is

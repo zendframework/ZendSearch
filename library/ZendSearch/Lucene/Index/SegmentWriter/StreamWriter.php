@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index\SegmentWriter;
+namespace ZendSearch\Lucene\Index\SegmentWriter;
 
-use Zend\Search\Lucene\Index as LuceneIndex;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene\Index as LuceneIndex;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -56,7 +56,7 @@ class StreamWriter extends AbstractSegmentWriter
     /**
      * Close segment, write it to disk and return segment info
      *
-     * @return \Zend\Search\Lucene\Index\SegmentInfo
+     * @return \ZendSearch\Lucene\Index\SegmentInfo
      */
     public function close()
     {

@@ -8,14 +8,14 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Exception\ExceptionInterface;
-use Zend\Search\Lucene\Exception\InvalidFileFormatException;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Exception\ExceptionInterface;
+use ZendSearch\Lucene\Exception\InvalidFileFormatException;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -76,7 +76,7 @@ class Writer
     /**
      * File system adapter.
      *
-     * @var \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
+     * @var \ZendSearch\Lucene\Storage\Directory\DirectoryInterface
      */
     private $_directory = null;
 
@@ -106,7 +106,7 @@ class Writer
     /**
      * Current segment to add documents
      *
-     * @var \Zend\Search\Lucene\Index\SegmentWriter\DocumentWriter
+     * @var \ZendSearch\Lucene\Index\SegmentWriter\DocumentWriter
      */
     private $_currentSegment = null;
 
@@ -115,7 +115,7 @@ class Writer
      *
      * It's a reference to the corresponding Zend_Search_Lucene::$_segmentInfos array
      *
-     * @var array|\Zend\Search\Lucene\Index\SegmentInfo
+     * @var array|\ZendSearch\Lucene\Index\SegmentInfo
      */
     private $_segmentInfos;
 
@@ -150,7 +150,7 @@ class Writer
     /**
      * Create empty index
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @param integer $generation
      * @param integer $nameCount
      */
@@ -205,10 +205,10 @@ class Writer
     /**
      * Open the index for writing
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @param array $segmentInfos
      * @param integer $targetFormatVersion
-     * @param \Zend\Search\Lucene\Storage\File\FileInterface $cleanUpLock
+     * @param \ZendSearch\Lucene\Storage\File\FileInterface $cleanUpLock
      */
     public function __construct(Directory\DirectoryInterface $directory, &$segmentInfos, $targetFormatVersion)
     {
@@ -220,7 +220,7 @@ class Writer
     /**
      * Adds a document to this index.
      *
-     * @param \Zend\Search\Lucene\Document $document
+     * @param \ZendSearch\Lucene\Document $document
      */
     public function addDocument(Document $document)
     {
@@ -378,8 +378,8 @@ class Writer
     /**
      * Update segments file by adding current segment to a list
      *
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      */
     private function _updateSegments()
     {

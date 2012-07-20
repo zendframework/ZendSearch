@@ -8,14 +8,14 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Exception\InvalidFileFormatException;
-use Zend\Search\Lucene\Exception\OutOfRangeException;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Search\Similarity\AbstractSimilarity;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\InvalidFileFormatException;
+use ZendSearch\Lucene\Exception\OutOfRangeException;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Search\Similarity\AbstractSimilarity;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -40,14 +40,14 @@ class Index implements SearchIndexInterface
     /**
      * Writer for this index, not instantiated unless required.
      *
-     * @var \Zend\Search\Lucene\Index\Writer
+     * @var \ZendSearch\Lucene\Index\Writer
      */
     private $_writer = null;
 
     /**
      * Array of Zend_Search_Lucene_Index_SegmentInfo objects for current version of index.
      *
-     * @var array|\Zend\Search\Lucene\Index\SegmentInfo
+     * @var array|\ZendSearch\Lucene\Index\SegmentInfo
      */
     private $_segmentInfos = array();
 
@@ -97,8 +97,8 @@ class Index implements SearchIndexInterface
      * 0 means pre-2.1 index format
      * -1 means there are no segments files.
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return integer
      */
     public static function getActualGeneration(Directory\DirectoryInterface $directory)
@@ -203,7 +203,7 @@ class Index implements SearchIndexInterface
      * Index is converted to this format at the nearest upfdate time
      *
      * @param int $formatVersion
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function setFormatVersion($formatVersion)
     {
@@ -219,7 +219,7 @@ class Index implements SearchIndexInterface
     /**
      * Read segments file for pre-2.1 Lucene index format
      *
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      */
     private function _readPre21SegmentsFile()
     {
@@ -259,8 +259,8 @@ class Index implements SearchIndexInterface
     /**
      * Read segments file
      *
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     private function _readSegmentsFile()
     {
@@ -321,7 +321,7 @@ class Index implements SearchIndexInterface
                 }
 
                 throw new RuntimeException(
-                    'Separate norm files are not supported. Optimize index to use it with Zend\Search\Lucene.'
+                    'Separate norm files are not supported. Optimize index to use it with ZendSearch\Lucene.'
                 );
             }
 
@@ -356,9 +356,9 @@ class Index implements SearchIndexInterface
      * IndexReader constructor needs Directory as a parameter. It should be
      * a string with a path to the index folder or a Directory object.
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\Filesystem|string $directory
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Storage\Directory\Filesystem|string $directory
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function __construct($directory = null, $create = false)
     {
@@ -443,7 +443,7 @@ class Index implements SearchIndexInterface
     /**
      * Returns an instance of Zend_Search_Lucene_Index_Writer for the index
      *
-     * @return \Zend\Search\Lucene\Index\Writer
+     * @return \ZendSearch\Lucene\Index\Writer
      */
     private function _getIndexWriter()
     {
@@ -460,7 +460,7 @@ class Index implements SearchIndexInterface
     /**
      * Returns the Zend_Search_Lucene_Storage_Directory instance for this index.
      *
-     * @return \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
+     * @return \ZendSearch\Lucene\Storage\Directory\DirectoryInterface
      */
     public function getDirectory()
     {
@@ -511,7 +511,7 @@ class Index implements SearchIndexInterface
      *
      * @param integer $id
      * @return boolean
-     * @throws \Zend\Search\Lucene\Exception\OutOfRangeException	is thrown if $id is out of the range
+     * @throws \ZendSearch\Lucene\Exception\OutOfRangeException	is thrown if $id is out of the range
      */
     public function isDeleted($id)
     {
@@ -647,17 +647,17 @@ class Index implements SearchIndexInterface
      * of Zend_Search_Lucene_Search_QueryHit objects.
      * Input is a string or Zend_Search_Lucene_Search_Query.
      *
-     * @param \Zend\Search\Lucene\Search\QueryParser|string $query
-     * @return array|\Zend\Search\Lucene\Search\QueryHit
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Search\QueryParser|string $query
+     * @return array|\ZendSearch\Lucene\Search\QueryHit
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function find($query)
     {
         if (is_string($query)) {
             $query = Search\QueryParser::parse($query);
         } elseif (!$query instanceof Search\Query\AbstractQuery) {
-            throw new InvalidArgumentException('Query must be a string or Zend\Search\Lucene\Search\Query object');
+            throw new InvalidArgumentException('Query must be a string or ZendSearch\Lucene\Search\Query object');
         }
 
         $this->commit();
@@ -821,14 +821,14 @@ class Index implements SearchIndexInterface
      * Returns a Zend_Search_Lucene_Document object for the document
      * number $id in this index.
      *
-     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
-     * @return \Zend\Search\Lucene\Document
-     * @throws \Zend\Search\Lucene\OutOfRangeException    is thrown if $id is out of the range
+     * @param integer|\ZendSearch\Lucene\Search\QueryHit $id
+     * @return \ZendSearch\Lucene\Document
+     * @throws \ZendSearch\Lucene\OutOfRangeException    is thrown if $id is out of the range
      */
     public function getDocument($id)
     {
         if ($id instanceof Search\QueryHit) {
-            /* @var $id \Zend\Search\Lucene\Search\QueryHit */
+            /* @var $id \ZendSearch\Lucene\Search\QueryHit */
             $id = $id->id;
         }
 
@@ -889,7 +889,7 @@ class Index implements SearchIndexInterface
      *
      * Is used for query optimization.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @return boolean
      */
     public function hasTerm(Index\Term $term)
@@ -906,8 +906,8 @@ class Index implements SearchIndexInterface
     /**
      * Returns IDs of all documents containing term.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
     public function termDocs(Index\Term $term, $docsFilter = null)
@@ -940,9 +940,9 @@ class Index implements SearchIndexInterface
      * It performs the same operation as termDocs, but return result as
      * Zend_Search_Lucene_Index_DocsFilter object
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @return \Zend\Search\Lucene\Index\DocsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @return \ZendSearch\Lucene\Index\DocsFilter
      */
     public function termDocsFilter(Index\Term $term, $docsFilter = null)
     {
@@ -973,8 +973,8 @@ class Index implements SearchIndexInterface
      * Returns an array of all term freqs.
      * Result array structure: array(docId => freq, ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return integer
      */
     public function termFreqs(Index\Term $term, $docsFilter = null)
@@ -994,8 +994,8 @@ class Index implements SearchIndexInterface
      * Returns an array of all term positions in the documents.
      * Result array structure: array(docId => array(pos1, pos2, ...), ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
     public function termPositions(Index\Term $term, $docsFilter = null)
@@ -1015,7 +1015,7 @@ class Index implements SearchIndexInterface
     /**
      * Returns the number of documents in this index containing the $term.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @return integer
      */
     public function docFreq(Index\Term $term)
@@ -1035,7 +1035,7 @@ class Index implements SearchIndexInterface
     /**
      * Retrive similarity used by index reader
      *
-     * @return \Zend\Search\Lucene\Search\Similarity\AbstractSimilarity
+     * @return \ZendSearch\Lucene\Search\Similarity\AbstractSimilarity
      */
     public function getSimilarity()
     {
@@ -1093,13 +1093,13 @@ class Index implements SearchIndexInterface
      * Deletes a document from the index.
      * $id is an internal document id
      *
-     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
-     * @throws \Zend\Search\Lucene\Exception\OutOfRangeException
+     * @param integer|\ZendSearch\Lucene\Search\QueryHit $id
+     * @throws \ZendSearch\Lucene\Exception\OutOfRangeException
      */
     public function delete($id)
     {
         if ($id instanceof Search\QueryHit) {
-            /* @var $id \Zend\Search\Lucene\Search\QueryHit */
+            /* @var $id \ZendSearch\Lucene\Search\QueryHit */
             $id = $id->id;
         }
 
@@ -1125,7 +1125,7 @@ class Index implements SearchIndexInterface
     /**
      * Adds a document to this index.
      *
-     * @param \Zend\Search\Lucene\Document $document
+     * @param \ZendSearch\Lucene\Document $document
      */
     public function addDocument(Document $document)
     {
@@ -1222,7 +1222,7 @@ class Index implements SearchIndexInterface
     /**
      * Terms stream priority queue object
      *
-     * @var \Zend\Search\Lucene\TermStreamsPriorityQueue
+     * @var \ZendSearch\Lucene\TermStreamsPriorityQueue
      */
     private $_termsStream = null;
 
@@ -1243,7 +1243,7 @@ class Index implements SearchIndexInterface
      *
      * Prefix contains fully specified field info and portion of searched term
      *
-     * @param \Zend\Search\Lucene\Index\Term $prefix
+     * @param \ZendSearch\Lucene\Index\Term $prefix
      */
     public function skipTo(Index\Term $prefix)
     {
@@ -1253,7 +1253,7 @@ class Index implements SearchIndexInterface
     /**
      * Scans terms dictionary and returns next term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function nextTerm()
     {
@@ -1263,7 +1263,7 @@ class Index implements SearchIndexInterface
     /**
      * Returns term in current position
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function currentTerm()
     {

@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
 /**
  * @category   Zend
@@ -27,21 +27,21 @@ interface TermsStreamInterface
      *
      * Prefix contains fully specified field info and portion of searched term
      *
-     * @param \Zend\Search\Lucene\Index\Term $prefix
+     * @param \ZendSearch\Lucene\Index\Term $prefix
      */
     public function skipTo(Term $prefix);
 
     /**
      * Scans terms dictionary and returns next term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function nextTerm();
 
     /**
      * Returns term in current position
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function currentTerm();
 

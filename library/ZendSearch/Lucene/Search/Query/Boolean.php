@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query;
+namespace ZendSearch\Lucene\Search\Query;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
-use Zend\Search\Lucene\Search\Weight;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene\Search\Weight;
 
 /**
  * @category   Zend
@@ -98,7 +98,7 @@ class Boolean extends AbstractQuery
      *     FALSE - subquery is prohibited
      *     NULL  - subquery is neither prohibited, nor required
      *
-     * @param  \Zend\Search\Lucene\Search\Query\AbstractQuery $subquery
+     * @param  \ZendSearch\Lucene\Search\Query\AbstractQuery $subquery
      * @param  boolean|null $sign
      * @return void
      */
@@ -120,8 +120,8 @@ class Boolean extends AbstractQuery
     /**
      * Re-write queries into primitive queries
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {
@@ -139,8 +139,8 @@ class Boolean extends AbstractQuery
     /**
      * Optimize query in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function optimize(Lucene\SearchIndexInterface $index)
     {
@@ -445,8 +445,8 @@ class Boolean extends AbstractQuery
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @return \Zend\Search\Lucene\Search\Weight\Boolean
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @return \ZendSearch\Lucene\Search\Weight\Boolean
      */
     public function createWeight(Lucene\SearchIndexInterface $reader)
     {
@@ -584,7 +584,7 @@ class Boolean extends AbstractQuery
      * Score calculator for conjunction queries (all subqueries are required)
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     public function _conjunctionScore($docId, Lucene\SearchIndexInterface $reader)
@@ -614,7 +614,7 @@ class Boolean extends AbstractQuery
      * Score calculator for non conjunction queries (not all subqueries are required)
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     public function _nonConjunctionScore($docId, Lucene\SearchIndexInterface $reader)
@@ -662,8 +662,8 @@ class Boolean extends AbstractQuery
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      */
     public function execute(Lucene\SearchIndexInterface $reader, $docsFilter = null)
     {
@@ -709,7 +709,7 @@ class Boolean extends AbstractQuery
      * Score specified document
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     public function score($docId, Lucene\SearchIndexInterface $reader)

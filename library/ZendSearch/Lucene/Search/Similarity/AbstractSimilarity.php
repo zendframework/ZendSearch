@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Similarity;
+namespace ZendSearch\Lucene\Search\Similarity;
 
 /**
  * @todo !!!!!!! This class is actually used as singleton. It has to be redesigned.
@@ -483,10 +483,10 @@ abstract class AbstractSimilarity
      * Returns a score factor for the term
      *
      * @param mixed $input
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float a score factor for the term
      */
-    public function idf($input, \Zend\Search\Lucene\SearchIndexInterface $reader)
+    public function idf($input, \ZendSearch\Lucene\SearchIndexInterface $reader)
     {
         if (!is_array($input)) {
             return $this->idfFreq($reader->docFreq($input), $reader->count());

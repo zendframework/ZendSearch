@@ -8,16 +8,16 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query;
+namespace ZendSearch\Lucene\Search\Query;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Analyzer\Analyzer;
-use Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface;
-use Zend\Search\Lucene\Exception\OutOfBoundsException;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Exception\UnsupportedMethodCallException;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Analyzer\Analyzer;
+use ZendSearch\Lucene\Analysis\Analyzer\AnalyzerInterface;
+use ZendSearch\Lucene\Exception\OutOfBoundsException;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Exception\UnsupportedMethodCallException;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -33,7 +33,7 @@ class Wildcard extends AbstractQuery
      * Field has to be fully specified or has to be null
      * Text may contain '*' or '?' symbols
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_pattern;
 
@@ -60,7 +60,7 @@ class Wildcard extends AbstractQuery
     /**
      * Zend_Search_Lucene_Search_Query_Wildcard constructor.
      *
-     * @param \Zend\Search\Lucene\Index\Term $pattern
+     * @param \ZendSearch\Lucene\Index\Term $pattern
      */
     public function __construct(Index\Term $pattern)
     {
@@ -114,10 +114,10 @@ class Wildcard extends AbstractQuery
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
-     * @throws \Zend\Search\Lucene\Exception\OutOfBoundsException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\OutOfBoundsException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {
@@ -209,9 +209,9 @@ class Wildcard extends AbstractQuery
     /**
      * Optimize query in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function optimize(Lucene\SearchIndexInterface $index)
     {
@@ -222,7 +222,7 @@ class Wildcard extends AbstractQuery
     /**
      * Returns query pattern
      *
-     * @return \Zend\Search\Lucene\Index\Term
+     * @return \ZendSearch\Lucene\Index\Term
      */
     public function getPattern()
     {
@@ -233,7 +233,7 @@ class Wildcard extends AbstractQuery
     /**
      * Return query terms
      *
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return array
      */
     public function getQueryTerms()
@@ -248,8 +248,8 @@ class Wildcard extends AbstractQuery
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      */
     public function createWeight(Lucene\SearchIndexInterface $reader)
     {
@@ -261,9 +261,9 @@ class Wildcard extends AbstractQuery
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      */
     public function execute(Lucene\SearchIndexInterface $reader, $docsFilter = null)
     {
@@ -275,7 +275,7 @@ class Wildcard extends AbstractQuery
      *
      * It's an array with document ids as keys (performance considerations)
      *
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      * @return array
      */
     public function matchedDocs()
@@ -289,8 +289,8 @@ class Wildcard extends AbstractQuery
      * Score specified document
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      * @return float
      */
     public function score($docId, Lucene\SearchIndexInterface $reader)

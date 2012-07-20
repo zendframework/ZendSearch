@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document;
+namespace ZendSearch\Lucene\Document;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\ExtensionNotLoadedException;
-use Zend\Search\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\ExtensionNotLoadedException;
+use ZendSearch\Lucene\Exception\RuntimeException;
 
 /**
  * Xlsx document.
@@ -63,8 +63,8 @@ class Xlsx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @throws \Zend\Search\Lucene\Exception\ExtensionNotLoadedException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\ExtensionNotLoadedException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     private function __construct($fileName, $storeContent)
     {
@@ -242,7 +242,7 @@ class Xlsx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @return \Zend\Search\Lucene\Document\Xlsx
+     * @return \ZendSearch\Lucene\Document\Xlsx
      */
     public static function loadXlsxFile($fileName, $storeContent = false)
     {

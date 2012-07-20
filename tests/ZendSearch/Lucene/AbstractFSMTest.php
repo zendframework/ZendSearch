@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 use Zend\Search;
 
 /**
@@ -41,7 +41,7 @@ class AbstractFSMTest extends \PHPUnit_Framework_TestCase
         $wrongStateExceptionCatched = false;
         try {
             $doorFSM->setState(testFSMClass::OPENED_AND_LOCKED);
-        } catch(\Zend\Search\Lucene\Exception\InvalidArgumentException $e) {
+        } catch(\ZendSearch\Lucene\Exception\InvalidArgumentException $e) {
             $wrongStateExceptionCatched = true;
         }
         $this->assertTrue($wrongStateExceptionCatched);
@@ -77,7 +77,7 @@ class AbstractFSMTest extends \PHPUnit_Framework_TestCase
         $wrongInputExceptionCatched = false;
         try {
             $doorFSM->process(testFSMClass::LOCK);
-        } catch(\Zend\Search\Lucene\Exception\ExceptionInterface $e) {
+        } catch(\ZendSearch\Lucene\Exception\ExceptionInterface $e) {
             $wrongInputExceptionCatched = true;
         }
         $this->assertTrue($wrongInputExceptionCatched);

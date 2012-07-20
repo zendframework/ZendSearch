@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Storage\File;
+namespace ZendSearch\Lucene\Storage\File;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 
 /**
  * @category   Zend

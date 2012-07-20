@@ -8,15 +8,15 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index\SegmentWriter;
+namespace ZendSearch\Lucene\Index\SegmentWriter;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Analyzer;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Exception as LuceneException;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Similarity\AbstractSimilarity;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Analyzer;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Exception as LuceneException;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Similarity\AbstractSimilarity;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -59,7 +59,7 @@ class DocumentWriter extends AbstractSegmentWriter
     /**
      * Adds a document to this segment.
      *
-     * @param \Zend\Search\Lucene\Document $document
+     * @param \ZendSearch\Lucene\Document $document
      * @throws LuceneException\UnsupportedMethodCallException
      */
     public function addDocument(Document $document)
@@ -187,7 +187,7 @@ class DocumentWriter extends AbstractSegmentWriter
     /**
      * Close segment, write it to disk and return segment info
      *
-     * @return \Zend\Search\Lucene\Index\SegmentInfo
+     * @return \ZendSearch\Lucene\Index\SegmentInfo
      */
     public function close()
     {

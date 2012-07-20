@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\InvalidFileFormatException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\InvalidFileFormatException;
 
 /**
  * Dictionary loader
@@ -36,7 +36,7 @@ class DictionaryLoader
      *
      * @param string $data
      * @return array
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      */
     public static function load($data)
     {

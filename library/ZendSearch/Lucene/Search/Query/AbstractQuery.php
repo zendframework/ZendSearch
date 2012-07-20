@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query;
+namespace ZendSearch\Lucene\Search\Query;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Search\Highlighter\DefaultHighlighter;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Search\Highlighter\DefaultHighlighter;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
 
 /**
  * @category   Zend
@@ -32,7 +32,7 @@ abstract class AbstractQuery
     /**
      * AbstractQuery weight
      *
-     * @var \Zend\Search\Lucene\Search\Weight\AbstractWeight
+     * @var \ZendSearch\Lucene\Search\Weight\AbstractWeight
      */
     protected $_weight = null;
 
@@ -62,7 +62,7 @@ abstract class AbstractQuery
      * Score specified document
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     abstract public function score($docId, Lucene\SearchIndexInterface $reader);
@@ -82,23 +82,23 @@ abstract class AbstractQuery
      *
      * AbstractQuery specific implementation
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      */
     abstract public function execute(Lucene\SearchIndexInterface $reader, $docsFilter = null);
 
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @return \Zend\Search\Lucene\Search\Weight\AbstractWeight
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @return \ZendSearch\Lucene\Search\Weight\AbstractWeight
      */
     abstract public function createWeight(Lucene\SearchIndexInterface $reader);
 
     /**
      * Constructs an initializes a Weight for a _top-level_query_.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      */
     protected function _initWeight(Lucene\SearchIndexInterface $reader)
     {
@@ -116,16 +116,16 @@ abstract class AbstractQuery
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     abstract public function rewrite(Lucene\SearchIndexInterface $index);
 
     /**
      * Optimize query in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     abstract public function optimize(Lucene\SearchIndexInterface $index);
 

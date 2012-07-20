@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
 /**
  * Abstract Priority Queue

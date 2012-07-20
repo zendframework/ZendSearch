@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -23,9 +23,9 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * 0 means pre-2.1 index format
      * -1 means there are no segments files.
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @return integer
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     public static function getActualGeneration(Storage\Directory\DirectoryInterface $directory);
 
@@ -49,14 +49,14 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Index is converted to this format at the nearest upfdate time
      *
      * @param int $formatVersion
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     public function setFormatVersion($formatVersion);
 
     /**
-     * Returns the Zend\Search\Lucene\Storage\Directory\DirectoryInterface instance for this index.
+     * Returns the ZendSearch\Lucene\Storage\Directory\DirectoryInterface instance for this index.
      *
-     * @return \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
+     * @return \ZendSearch\Lucene\Storage\Directory\DirectoryInterface
      */
     public function getDirectory();
 
@@ -88,7 +88,7 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      *
      * @param integer $id
      * @return boolean
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface    Exception is thrown if $id is out of the range
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface    Exception is thrown if $id is out of the range
      */
     public function isDeleted($id);
 
@@ -176,8 +176,8 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Input is a string or Zend_Search_Lucene_Search_Query.
      *
      * @param mixed $query
-     * @return array|\Zend\Search\Lucene\Search\QueryHit
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @return array|\ZendSearch\Lucene\Search\QueryHit
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     public function find($query);
 
@@ -193,8 +193,8 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Returns a Zend_Search_Lucene_Document object for the document
      * number $id in this index.
      *
-     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
-     * @return \Zend\Search\Lucene\Document
+     * @param integer|\ZendSearch\Lucene\Search\QueryHit $id
+     * @return \ZendSearch\Lucene\Document
      */
     public function getDocument($id);
 
@@ -203,7 +203,7 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      *
      * Is used for query optimization.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @return boolean
      */
     public function hasTerm(Index\Term $term);
@@ -211,8 +211,8 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
     /**
      * Returns IDs of all the documents containing term.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
     public function termDocs(Index\Term $term, $docsFilter = null);
@@ -223,9 +223,9 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * It performs the same operation as termDocs, but return result as
      * Zend_Search_Lucene_Index_DocsFilter object
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @return \Zend\Search\Lucene\Index\DocsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @return \ZendSearch\Lucene\Index\DocsFilter
      */
     public function termDocsFilter(Index\Term $term, $docsFilter = null);
 
@@ -233,8 +233,8 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Returns an array of all term freqs.
      * Return array structure: array( docId => freq, ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return integer
      */
     public function termFreqs(Index\Term $term, $docsFilter = null);
@@ -243,8 +243,8 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Returns an array of all term positions in the documents.
      * Return array structure: array( docId => array( pos1, pos2, ...), ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      * @return array
      */
     public function termPositions(Index\Term $term, $docsFilter = null);
@@ -252,7 +252,7 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
     /**
      * Returns the number of documents in this index containing the $term.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @return integer
      */
     public function docFreq(Index\Term $term);
@@ -260,7 +260,7 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
     /**
      * Retrive similarity used by index reader
      *
-     * @return \Zend\Search\Lucene\Search\Similarity\AbstractSimilarity
+     * @return \ZendSearch\Lucene\Search\Similarity\AbstractSimilarity
      */
     public function getSimilarity();
 
@@ -284,15 +284,15 @@ interface SearchIndexInterface extends Index\TermsStreamInterface
      * Deletes a document from the index.
      * $id is an internal document id
      *
-     * @param integer|\Zend\Search\Lucene\Search\QueryHit $id
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @param integer|\ZendSearch\Lucene\Search\QueryHit $id
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     public function delete($id);
 
     /**
      * Adds a document to this index.
      *
-     * @param \Zend\Search\Lucene\Document $document
+     * @param \ZendSearch\Lucene\Document $document
      */
     public function addDocument(Document $document);
 

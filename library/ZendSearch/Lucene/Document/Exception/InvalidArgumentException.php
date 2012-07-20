@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document\Exception;
+namespace ZendSearch\Lucene\Document\Exception;
 
-use Zend\Search\Lucene\Exception;
+use ZendSearch\Lucene\Exception;
 
 class InvalidArgumentException
     extends Exception\InvalidArgumentException

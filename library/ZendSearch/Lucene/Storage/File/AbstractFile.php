@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Storage\File;
+namespace ZendSearch\Lucene\Storage\File;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Storage\File;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Storage\File;
 
 /**
  * @category   Zend
@@ -157,7 +157,7 @@ abstract class AbstractFile implements FileInterface
      * Returns a long integer from the current position in the file,
      * advances the file pointer and return it as float (for 32-bit platforms).
      *
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return integer|float
      */
     protected function _readLong32Bit()
@@ -196,7 +196,7 @@ abstract class AbstractFile implements FileInterface
      * Writes long integer to the end of file (32-bit platforms implementation)
      *
      * @param integer|float $value
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     protected function _writeLong32Bit($value)
     {
@@ -320,7 +320,7 @@ abstract class AbstractFile implements FileInterface
      * Writes a string to the end of file.
      *
      * @param string $str
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function writeString($str)
     {

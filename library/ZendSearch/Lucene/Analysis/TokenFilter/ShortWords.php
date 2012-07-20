@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\TokenFilter;
+namespace ZendSearch\Lucene\Analysis\TokenFilter;
 
-use Zend\Search\Lucene\Analysis\Token;
+use ZendSearch\Lucene\Analysis\Token;
 
 /**
  * Token filter that removes short words. What is short word can be configured with constructor.
@@ -40,8 +40,8 @@ class ShortWords implements TokenFilterInterface
     /**
      * Normalize Token or remove it (if null is returned)
      *
-     * @param \Zend\Search\Lucene\Analysis\Token $srcToken
-     * @return \Zend\Search\Lucene\Analysis\Token
+     * @param \ZendSearch\Lucene\Analysis\Token $srcToken
+     * @return \ZendSearch\Lucene\Analysis\Token
      */
     public function normalize(Token $srcToken)
     {

@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Exception;
+namespace ZendSearch\Lucene\Exception;
 
 class UnsupportedMethodCallException
     extends \BadMethodCallException

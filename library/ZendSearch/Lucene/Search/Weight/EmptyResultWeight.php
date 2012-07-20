@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Weight;
+namespace ZendSearch\Lucene\Search\Weight;
 
 /**
  * @category   Zend

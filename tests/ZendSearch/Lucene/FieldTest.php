@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene\Document;
+use ZendSearch\Lucene\Document;
 
 /**
  * @category   Zend

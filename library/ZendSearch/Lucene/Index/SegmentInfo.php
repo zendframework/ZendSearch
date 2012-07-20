@@ -8,15 +8,15 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\ExceptionInterface;
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Exception\InvalidFileFormatException;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Search\Similarity\AbstractSimilarity;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\ExceptionInterface;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\InvalidFileFormatException;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Search\Similarity\AbstractSimilarity;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -141,7 +141,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * File system adapter.
      *
-     * @var \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
+     * @var \ZendSearch\Lucene\Storage\Directory\DirectoryInterface
      */
     private $_directory;
 
@@ -151,7 +151,7 @@ class SegmentInfo implements TermsStreamInterface
      * normVector is a binary string.
      * Each byte corresponds to an indexed document in a segment and
      * encodes normalization factor (float value, encoded by
-     * \Zend\Search\Lucene\Search\Similarity\AbstractSimilarity::encodeNorm())
+     * \ZendSearch\Lucene\Search\Similarity\AbstractSimilarity::encodeNorm())
      *
      * @var array
      */
@@ -192,14 +192,14 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Zend_Search_Lucene_Index_SegmentInfo constructor
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @param string     $name
      * @param integer    $docCount
      * @param integer    $delGen
      * @param array|null $docStoreOptions
      * @param boolean    $hasSingleNormFile
      * @param boolean    $isCompound
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function __construct(Directory\DirectoryInterface $directory, $name, $docCount, $delGen = 0, $docStoreOptions = null, $hasSingleNormFile = false, $isCompound = null)
     {
@@ -343,7 +343,7 @@ class SegmentInfo implements TermsStreamInterface
      *
      * Returns bitset or an array depending on bitset extension availability
      *
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return mixed
      */
     private function _loadPre21DelFile()
@@ -473,8 +473,8 @@ class SegmentInfo implements TermsStreamInterface
      *
      * @param string $extension
      * @param boolean $shareHandler
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
      */
     public function openCompoundFile($extension, $shareHandler = true)
     {
@@ -552,7 +552,7 @@ class SegmentInfo implements TermsStreamInterface
      * Get compound file length
      *
      * @param string $extension
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      * @return integer
      */
     public function compoundFileLength($extension)
@@ -609,7 +609,7 @@ class SegmentInfo implements TermsStreamInterface
      * Returns field info for specified field
      *
      * @param integer $fieldNum
-     * @return \Zend\Search\Lucene\Index\FieldInfo
+     * @return \ZendSearch\Lucene\Index\FieldInfo
      */
     public function getField($fieldNum)
     {
@@ -746,7 +746,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Load terms dictionary index
      *
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     private function _loadDictionaryIndex()
     {
@@ -781,9 +781,9 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Scans terms dictionary and returns term info
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
-     * @return \Zend\Search\Lucene\Index\TermInfo
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
+     * @return \ZendSearch\Lucene\Index\TermInfo
      */
     public function getTermInfo(Term $term)
     {
@@ -909,10 +909,10 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Returns IDs of all the documents containing term.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @param integer $shift
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      * @return array
      */
     public function termDocs(Term $term, $shift = 0, DocsFilter $docsFilter = null)
@@ -1026,10 +1026,10 @@ class SegmentInfo implements TermsStreamInterface
      * Returns term freqs array.
      * Result array structure: array(docId => freq, ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @param integer $shift
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @return \Zend\Search\Lucene\Index\TermInfo
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @return \ZendSearch\Lucene\Index\TermInfo
      */
     public function termFreqs(Term $term, $shift = 0, DocsFilter $docsFilter = null)
     {
@@ -1146,10 +1146,10 @@ class SegmentInfo implements TermsStreamInterface
      * Returns term positions array.
      * Result array structure: array(docId => array(pos1, pos2, ...), ...)
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @param integer $shift
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @return \Zend\Search\Lucene\Index\TermInfo
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @return \ZendSearch\Lucene\Index\TermInfo
      */
     public function termPositions(Term $term, $shift = 0, DocsFilter $docsFilter = null)
     {
@@ -1324,7 +1324,7 @@ class SegmentInfo implements TermsStreamInterface
      * Load normalizatin factors from an index file
      *
      * @param integer $fieldNum
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      */
     private function _loadNorm($fieldNum)
     {
@@ -1510,7 +1510,7 @@ class SegmentInfo implements TermsStreamInterface
      * so index Write lock has to be already obtained.
      *
      * @internal
-     * @throws Zend\Search\Lucene\Exception\RuntimeException
+     * @throws ZendSearch\Lucene\Exception\RuntimeException
      */
     public function writeChanges()
     {
@@ -1588,7 +1588,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Term Dictionary File object for stream like terms reading
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_tisFile = null;
 
@@ -1602,7 +1602,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Frequencies File object for stream like terms reading
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_frqFile = null;
 
@@ -1616,7 +1616,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Positions File object for stream like terms reading
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_prxFile = null;
 
@@ -1659,14 +1659,14 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Last TermInfo in a terms stream
      *
-     * @var \Zend\Search\Lucene\Index\TermInfo
+     * @var \ZendSearch\Lucene\Index\TermInfo
      */
     private $_lastTermInfo = null;
 
     /**
      * Last Term in a terms stream
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_lastTerm = null;
 
@@ -1721,8 +1721,8 @@ class SegmentInfo implements TermsStreamInterface
      *
      * @param integer $startId
      * @param integer $mode
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
-     * @throws \Zend\Search\Lucene\Exception\InvalidFileFormatException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidFileFormatException
      * @return integer
      */
     public function resetTermsStream(/** $startId = 0, $mode = self::SM_TERMS_ONLY */)
@@ -1820,7 +1820,7 @@ class SegmentInfo implements TermsStreamInterface
      *
      * Prefix contains fully specified field info and portion of searched term
      *
-     * @param \Zend\Search\Lucene\Index\Term $prefix
+     * @param \ZendSearch\Lucene\Index\Term $prefix
      */
     public function skipTo(Term $prefix)
     {
@@ -1964,7 +1964,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Scans terms dictionary and returns next term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function nextTerm()
     {
@@ -2064,7 +2064,7 @@ class SegmentInfo implements TermsStreamInterface
     /**
      * Returns term in current position
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function currentTerm()
     {

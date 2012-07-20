@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document;
+namespace ZendSearch\Lucene\Document;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\ExtensionNotLoadedException;
-use Zend\Search\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\ExtensionNotLoadedException;
+use ZendSearch\Lucene\Exception\RuntimeException;
 
 /**
  * Pptx document.
@@ -56,8 +56,8 @@ class Pptx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @throws \Zend\Search\Lucene\Exception\ExtensionNotLoadedException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\ExtensionNotLoadedException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     private function __construct($fileName, $storeContent)
     {
@@ -176,7 +176,7 @@ class Pptx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @return \Zend\Search\Lucene\Document\Pptx
+     * @return \ZendSearch\Lucene\Document\Pptx
      */
     public static function loadPptxFile($fileName, $storeContent = false)
     {

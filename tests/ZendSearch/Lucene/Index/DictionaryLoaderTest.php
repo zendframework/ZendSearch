@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene\Index;
+namespace ZendSearchTest\Lucene\Index;
 
 /**
  * @category   Zend
@@ -20,7 +20,7 @@ class DictionaryLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $directory = new \Zend\Search\Lucene\Storage\Directory\Filesystem(__DIR__ . '/_source/_files');
+        $directory = new \ZendSearch\Lucene\Storage\Directory\Filesystem(__DIR__ . '/_source/_files');
 
         $stiFile = $directory->getFileObject('_1.sti');
         $stiFileData = $stiFile->readBytes($directory->fileLength('_1.sti'));
@@ -29,13 +29,13 @@ class DictionaryLoaderTest extends \PHPUnit_Framework_TestCase
         list($termDictionary, $termDictionaryInfos) = unserialize($stiFileData);
 
 
-        $segmentInfo = new \Zend\Search\Lucene\Index\SegmentInfo($directory, '_1', 2);
+        $segmentInfo = new \ZendSearch\Lucene\Index\SegmentInfo($directory, '_1', 2);
         $tiiFile = $segmentInfo->openCompoundFile('.tii');
         $tiiFileData = $tiiFile->readBytes($segmentInfo->compoundFileLength('.tii'));
 
         // Load dictionary index data
         list($loadedTermDictionary, $loadedTermDictionaryInfos) =
-                    \Zend\Search\Lucene\Index\DictionaryLoader::load($tiiFileData);
+                    \ZendSearch\Lucene\Index\DictionaryLoader::load($tiiFileData);
 
         $this->assertTrue($termDictionary == $loadedTermDictionary);
         $this->assertTrue($termDictionaryInfos == $loadedTermDictionaryInfos);

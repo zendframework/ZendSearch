@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Index;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Index;
 
 /**
  * @category   Zend
@@ -204,7 +204,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     {
         $index = Lucene\Lucene::open(__DIR__ . '/_indexSample/_files');
 
-        $this->assertTrue($index->getSimilarity() instanceof \Zend\Search\Lucene\Search\Similarity\AbstractSimilarity);
+        $this->assertTrue($index->getSimilarity() instanceof \ZendSearch\Lucene\Search\Similarity\AbstractSimilarity);
     }
 
     public function testNorm()

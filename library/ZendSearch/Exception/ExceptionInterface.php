@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Exception;
+namespace ZendSearch\Exception;
 
 /**
  * @category   Zend

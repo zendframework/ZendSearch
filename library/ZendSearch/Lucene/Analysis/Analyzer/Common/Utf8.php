@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\Analyzer\Common;
+namespace ZendSearch\Lucene\Analysis\Analyzer\Common;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis;
-use Zend\Search\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis;
+use ZendSearch\Lucene\Exception\RuntimeException;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -39,7 +39,7 @@ class Utf8 extends AbstractCommon
     /**
      * Object constructor
      *
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function __construct()
     {
@@ -73,7 +73,7 @@ class Utf8 extends AbstractCommon
      * Get next token
      * Returns null at the end of stream
      *
-     * @return \Zend\Search\Lucene\Analysis\Token|null
+     * @return \ZendSearch\Lucene\Analysis\Token|null
      */
     public function nextToken()
     {

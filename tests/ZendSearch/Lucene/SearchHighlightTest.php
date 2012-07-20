@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene\Search\Query;
-use Zend\Search\Lucene\Search;
+use ZendSearch\Lucene\Search\Query;
+use ZendSearch\Lucene\Search;
 
 /**
  * @category   Zend

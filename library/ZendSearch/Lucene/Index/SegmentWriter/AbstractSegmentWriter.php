@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index\SegmentWriter;
+namespace ZendSearch\Lucene\Index\SegmentWriter;
 
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Storage\Directory;
-use Zend\Search\Lucene\Storage\File;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Storage\Directory;
+use ZendSearch\Lucene\Storage\File;
 
 /**
  * @category   Zend
@@ -77,7 +77,7 @@ abstract class AbstractSegmentWriter
     /**
      * File system adapter.
      *
-     * @var \Zend\Search\Lucene\Storage\Directory\DirectoryInterface
+     * @var \ZendSearch\Lucene\Storage\Directory\DirectoryInterface
      */
     protected $_directory;
 
@@ -102,7 +102,7 @@ abstract class AbstractSegmentWriter
      * normVector is a binary string.
      * Each byte corresponds to an indexed document in a segment and
      * encodes normalization factor (float value, encoded by
-     * \Zend\Search\Lucene\Search\Similarity\AbstractSimilarity::encodeNorm())
+     * \ZendSearch\Lucene\Search\Similarity\AbstractSimilarity::encodeNorm())
      *
      * @var array
      */
@@ -112,14 +112,14 @@ abstract class AbstractSegmentWriter
     /**
      * '.fdx'  file - Stored Fields, the field index.
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     protected $_fdxFile = null;
 
     /**
      * '.fdt'  file - Stored Fields, the field data.
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     protected $_fdtFile = null;
 
@@ -127,7 +127,7 @@ abstract class AbstractSegmentWriter
     /**
      * Object constructor.
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @param string $name
      */
     public function __construct(Directory\DirectoryInterface $directory, $name)
@@ -142,7 +142,7 @@ abstract class AbstractSegmentWriter
      *
      * Returns actual field number
      *
-     * @param \Zend\Search\Lucene\Document\Field $field
+     * @param \ZendSearch\Lucene\Document\Field $field
      * @return integer
      */
     public function addField(Document\Field $field)
@@ -168,7 +168,7 @@ abstract class AbstractSegmentWriter
      *
      * Returns actual field number
      *
-     * @param \Zend\Search\Lucene\Index\FieldInfo $fieldInfo
+     * @param \ZendSearch\Lucene\Index\FieldInfo $fieldInfo
      * @return integer
      */
     public function addFieldInfo(Index\FieldInfo $fieldInfo)
@@ -202,7 +202,7 @@ abstract class AbstractSegmentWriter
     /**
      * Add stored fields information
      *
-     * @param array $storedFields array of \Zend\Search\Lucene\Document\Field objects
+     * @param array $storedFields array of \ZendSearch\Lucene\Document\Field objects
      */
     public function addStoredFields($storedFields)
     {
@@ -295,28 +295,28 @@ abstract class AbstractSegmentWriter
     /**
      * Term Dictionary file
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_tisFile = null;
 
     /**
      * Term Dictionary index file
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_tiiFile = null;
 
     /**
      * Frequencies file
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_frqFile = null;
 
     /**
      * Positions file
      *
-     * @var \Zend\Search\Lucene\Storage\File\FileInterface
+     * @var \ZendSearch\Lucene\Storage\File\FileInterface
      */
     private $_prxFile = null;
 
@@ -331,28 +331,28 @@ abstract class AbstractSegmentWriter
     /**
      * Last saved term
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_prevTerm;
 
     /**
      * Last saved term info
      *
-     * @var \Zend\Search\Lucene\Index\TermInfo
+     * @var \ZendSearch\Lucene\Index\TermInfo
      */
     private $_prevTermInfo;
 
     /**
      * Last saved index term
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_prevIndexTerm;
 
     /**
      * Last saved index term info
      *
-     * @var \Zend\Search\Lucene\Index\TermInfo
+     * @var \ZendSearch\Lucene\Index\TermInfo
      */
     private $_prevIndexTermInfo;
 
@@ -414,7 +414,7 @@ abstract class AbstractSegmentWriter
      *
      * Term positions is an array( docId => array(pos1, pos2, pos3, ...), ... )
      *
-     * @param \Zend\Search\Lucene\Index\Term $termEntry
+     * @param \ZendSearch\Lucene\Index\Term $termEntry
      * @param array $termDocs
      */
     public function addTerm($termEntry, $termDocs)
@@ -484,11 +484,11 @@ abstract class AbstractSegmentWriter
      * Dump Term Dictionary segment file entry.
      * Used to write entry to .tis or .tii files
      *
-     * @param \Zend\Search\Lucene\Storage\File\FileInterface $dicFile
-     * @param \Zend\Search\Lucene\Index\Term $prevTerm
-     * @param \Zend\Search\Lucene\Index\Term $term
-     * @param \Zend\Search\Lucene\Index\TermInfo $prevTermInfo
-     * @param \Zend\Search\Lucene\Index\TermInfo $termInfo
+     * @param \ZendSearch\Lucene\Storage\File\FileInterface $dicFile
+     * @param \ZendSearch\Lucene\Index\Term $prevTerm
+     * @param \ZendSearch\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\TermInfo $prevTermInfo
+     * @param \ZendSearch\Lucene\Index\TermInfo $termInfo
      */
     protected function _dumpTermDictEntry(File\FileInterface $dicFile,
                                           &$prevTerm,     Index\Term     $term,
@@ -606,7 +606,7 @@ abstract class AbstractSegmentWriter
     /**
      * Close segment, write it to disk and return segment info
      *
-     * @return \Zend\Search\Lucene\Index\SegmentInfo
+     * @return \ZendSearch\Lucene\Index\SegmentInfo
      */
     abstract public function close();
 }

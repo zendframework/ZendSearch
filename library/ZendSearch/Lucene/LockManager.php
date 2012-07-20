@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Storage\Directory\DirectoryInterface as Directory;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Storage\Directory\DirectoryInterface as Directory;
 
 /**
  * This is an utility class which provides index locks processing functionality
@@ -32,9 +32,9 @@ class LockManager
     /**
      * Obtain exclusive write lock on the index
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public static function obtainWriteLock(Directory $lockDirectory)
     {
@@ -48,7 +48,7 @@ class LockManager
     /**
      * Release exclusive write lock
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      */
     public static function releaseWriteLock(Directory $lockDirectory)
     {
@@ -76,9 +76,9 @@ class LockManager
      *  of opportunity for another process to gain an exclusive lock when
      *  it shoudln't be allowed to).
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     private static function _startReadLockProcessing(Directory $lockDirectory)
     {
@@ -95,7 +95,7 @@ class LockManager
      * Required to protect the escalate/de-escalate read lock process
      * on GFS (and potentially other) mounted filesystems.
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      */
     private static function _stopReadLockProcessing(Directory $lockDirectory)
     {
@@ -109,9 +109,9 @@ class LockManager
      *
      * It doesn't block other read or update processes, but prevent index from the premature cleaning-up
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $defaultLockDirectory
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @param \ZendSearch\Lucene\Storage\Directory $defaultLockDirectory
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public static function obtainReadLock(Directory $lockDirectory)
     {
@@ -125,7 +125,7 @@ class LockManager
     /**
      * Release shared read lock
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      */
     public static function releaseReadLock(Directory $lockDirectory)
     {
@@ -136,7 +136,7 @@ class LockManager
     /**
      * Escalate Read lock to exclusive level
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      * @return boolean
      */
     public static function escalateReadLock(Directory $lockDirectory)
@@ -180,7 +180,7 @@ class LockManager
     /**
      * De-escalate Read lock to shared level
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      */
     public static function deEscalateReadLock(Directory $lockDirectory)
     {
@@ -193,7 +193,7 @@ class LockManager
      *
      * Returns lock object on success and false otherwise (doesn't block execution)
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      * @return mixed
      */
     public static function obtainOptimizationLock(Directory $lockDirectory)
@@ -208,7 +208,7 @@ class LockManager
     /**
      * Release exclusive optimization lock
      *
-     * @param \Zend\Search\Lucene\Storage\Directory $lockDirectory
+     * @param \ZendSearch\Lucene\Storage\Directory $lockDirectory
      */
     public static function releaseOptimizationLock(Directory $lockDirectory)
     {

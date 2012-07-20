@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\Analyzer\Common;
+namespace ZendSearch\Lucene\Analysis\Analyzer\Common;
 
-use Zend\Search\Lucene\Analysis;
+use ZendSearch\Lucene\Analysis;
 
 /**
  * @category   Zend
@@ -49,7 +49,7 @@ class Text extends AbstractCommon
      * Get next token
      * Returns null at the end of stream
      *
-     * @return \Zend\Search\Lucene\Analysis\Token|null
+     * @return \ZendSearch\Lucene\Analysis\Token|null
      */
     public function nextToken()
     {

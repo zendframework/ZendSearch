@@ -8,15 +8,15 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene\Analysis\Analyzer\Analyzer;
-use Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface;
-use Zend\Search\Lucene\Analysis\Analyzer\Common;
-use Zend\Search\Lucene\Analysis\Analyzer\Common\Text;
-use Zend\Search\Lucene\Analysis\Analyzer\Common\TextNum;
-use Zend\Search\Lucene\Analysis\Analyzer\Common\Utf8;
-use Zend\Search\Lucene\Analysis\Analyzer\Common\Utf8Num;
+use ZendSearch\Lucene\Analysis\Analyzer\Analyzer;
+use ZendSearch\Lucene\Analysis\Analyzer\AnalyzerInterface;
+use ZendSearch\Lucene\Analysis\Analyzer\Common;
+use ZendSearch\Lucene\Analysis\Analyzer\Common\Text;
+use ZendSearch\Lucene\Analysis\Analyzer\Common\TextNum;
+use ZendSearch\Lucene\Analysis\Analyzer\Common\Utf8;
+use ZendSearch\Lucene\Analysis\Analyzer\Common\Utf8Num;
 
 /**
  * @category   Zend
@@ -318,7 +318,7 @@ class AnalysisTest extends \PHPUnit_Framework_TestCase
         /** Zend_Search_Lucene_Analysis_TokenFilter_StopWords */
 
         $analyzer = new Text\CaseInsensitive();
-        $stopWordsFilter = new \Zend\Search\Lucene\Analysis\TokenFilter\StopWords(array('word', 'and', 'or'));
+        $stopWordsFilter = new \ZendSearch\Lucene\Analysis\TokenFilter\StopWords(array('word', 'and', 'or'));
 
         $analyzer->addFilter($stopWordsFilter);
 
@@ -339,7 +339,7 @@ class AnalysisTest extends \PHPUnit_Framework_TestCase
         /** Zend_Search_Lucene_Analysis_TokenFilter_ShortWords */
 
         $analyzer = new Text\CaseInsensitive();
-        $stopWordsFilter = new \Zend\Search\Lucene\Analysis\TokenFilter\ShortWords(4 /* Minimal length */);
+        $stopWordsFilter = new \ZendSearch\Lucene\Analysis\TokenFilter\ShortWords(4 /* Minimal length */);
 
         $analyzer->addFilter($stopWordsFilter);
 

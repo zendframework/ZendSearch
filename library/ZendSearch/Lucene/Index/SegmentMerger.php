@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Storage\Directory;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Storage\Directory;
 
 /**
  * @category   Zend
@@ -25,7 +25,7 @@ class SegmentMerger
     /**
      * Target segment writer
      *
-     * @var \Zend\Search\Lucene\Index\SegmentWriter\StreamWriter
+     * @var \ZendSearch\Lucene\Index\SegmentWriter\StreamWriter
      */
     private $_writer;
 
@@ -39,7 +39,7 @@ class SegmentMerger
     /**
      * A set of segments to be merged
      *
-     * @var array|\Zend\Search\Lucene\Index\SegmentInfo
+     * @var array|\ZendSearch\Lucene\Index\SegmentInfo
      */
     private $_segmentInfos = array();
 
@@ -66,12 +66,12 @@ class SegmentMerger
      * Creates new segment merger with $directory as target to merge segments into
      * and $name as a name of new segment
      *
-     * @param \Zend\Search\Lucene\Storage\Directory\DirectoryInterface $directory
+     * @param \ZendSearch\Lucene\Storage\Directory\DirectoryInterface $directory
      * @param string $name
      */
     public function __construct(Directory\DirectoryInterface $directory, $name)
     {
-        /** \Zend\Search\Lucene\Index\SegmentWriter\StreamWriter */
+        /** \ZendSearch\Lucene\Index\SegmentWriter\StreamWriter */
         $this->_writer = new SegmentWriter\StreamWriter($directory, $name);
     }
 
@@ -79,7 +79,7 @@ class SegmentMerger
     /**
      * Add segmnet to a collection of segments to be merged
      *
-     * @param \Zend\Search\Lucene\Index\SegmentInfo $segment
+     * @param \ZendSearch\Lucene\Index\SegmentInfo $segment
      */
     public function addSource(SegmentInfo $segmentInfo)
     {
@@ -92,8 +92,8 @@ class SegmentMerger
      *
      * Returns number of documents in newly created segment
      *
-     * @return \Zend\Search\Lucene\Index\SegmentInfo
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @return \ZendSearch\Lucene\Index\SegmentInfo
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function merge()
     {

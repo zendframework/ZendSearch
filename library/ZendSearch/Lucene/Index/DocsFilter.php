@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Index;
+namespace ZendSearch\Lucene\Index;
 
 /**
  * A Zend_Search_Lucene_Index_DocsFilter is used to filter documents while searching.

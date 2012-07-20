@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene;
+namespace ZendSearchTest\Lucene;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -21,8 +21,8 @@ use Zend\Search\Lucene;
 class MultiIndexTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Search\Lucene\MultiSearcher::find
-     * @covers Zend\Search\Lucene\Search\QueryHit::getDocument
+     * @covers ZendSearch\Lucene\MultiSearcher::find
+     * @covers ZendSearch\Lucene\Search\QueryHit::getDocument
      */
     public function testFind()
     {

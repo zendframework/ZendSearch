@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\QueryEntry;
+namespace ZendSearch\Lucene\Search\QueryEntry;
 
 /**
  * @category   Zend
@@ -20,16 +20,16 @@ class Subquery extends AbstractQueryEntry
     /**
      * Query
      *
-     * @var \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @var \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     private $_query;
 
     /**
      * Object constractor
      *
-     * @param \Zend\Search\Lucene\Search\Query\AbstractQuery $query
+     * @param \ZendSearch\Lucene\Search\Query\AbstractQuery $query
      */
-    public function __construct(\Zend\Search\Lucene\Search\Query\AbstractQuery $query)
+    public function __construct(\ZendSearch\Lucene\Search\Query\AbstractQuery $query)
     {
         $this->_query = $query;
     }
@@ -38,11 +38,11 @@ class Subquery extends AbstractQueryEntry
      * Process modifier ('~')
      *
      * @param mixed $parameter
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function processFuzzyProximityModifier($parameter = null)
     {
-        throw new \Zend\Search\Lucene\Search\Exception\QueryParserException(
+        throw new \ZendSearch\Lucene\Search\Exception\QueryParserException(
             '\'~\' sign must follow term or phrase'
         );
     }
@@ -52,7 +52,7 @@ class Subquery extends AbstractQueryEntry
      * Transform entry to a subquery
      *
      * @param string $encoding
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function getQuery($encoding)
     {

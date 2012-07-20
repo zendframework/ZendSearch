@@ -8,13 +8,13 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document;
+namespace ZendSearch\Lucene\Document;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Analyzer;
-use Zend\Search\Lucene\Document;
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Analyzer;
+use ZendSearch\Lucene\Document;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\RuntimeException;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -249,7 +249,7 @@ class HTML extends Document
      * @param string  $data
      * @param boolean $storeContent
      * @param string  $defaultEncoding   HTML encoding, is used if it's not specified using Content-type HTTP-EQUIV meta tag.
-     * @return \Zend\Search\Lucene\Document\HTML
+     * @return \ZendSearch\Lucene\Document\HTML
      */
     public static function loadHTML($data, $storeContent = false, $defaultEncoding = '')
     {
@@ -262,7 +262,7 @@ class HTML extends Document
      * @param string  $file
      * @param boolean $storeContent
      * @param string  $defaultEncoding   HTML encoding, is used if it's not specified using Content-type HTTP-EQUIV meta tag.
-     * @return \Zend\Search\Lucene\Document\HTML
+     * @return \ZendSearch\Lucene\Document\HTML
      */
     public static function loadHTMLFile($file, $storeContent = false, $defaultEncoding = '')
     {
@@ -277,7 +277,7 @@ class HTML extends Document
      * @param array   $wordsToHighlight
      * @param callback $callback   Callback method, used to transform (highlighting) text.
      * @param array    $params     Array of additionall callback parameters (first non-optional parameter is a text to transform)
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     protected function _highlightTextNode(\DOMText $node, $wordsToHighlight, $callback, $params)
     {
@@ -402,7 +402,7 @@ class HTML extends Document
      * @param callback $callback   Callback method, used to transform (highlighting) text.
      * @param array    $params     Array of additionall callback parameters passed through into it
      *                             (first non-optional parameter is an HTML fragment for highlighting)
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      * @return string
      */
     public function highlightExtended($words, $callback, $params = array())

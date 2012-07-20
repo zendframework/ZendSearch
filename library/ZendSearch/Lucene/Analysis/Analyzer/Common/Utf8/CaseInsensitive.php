@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\Analyzer\Common\Utf8;
+namespace ZendSearch\Lucene\Analysis\Analyzer\Common\Utf8;
 
-use Zend\Search\Lucene\Analysis\Analyzer\Common;
-use Zend\Search\Lucene\Analysis\TokenFilter;
+use ZendSearch\Lucene\Analysis\Analyzer\Common;
+use ZendSearch\Lucene\Analysis\TokenFilter;
 
 /**
  * @category   Zend

@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search;
+namespace ZendSearch\Lucene\Search;
 
-use Zend\Search\Lucene;
+use ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -174,7 +174,7 @@ class BooleanExpressionRecognizer extends Lucene\AbstractFSM
      *        ...
      *      ) // end of structure
      *
-     * @throws \Zend\Search\Lucene\Exception\UnexpectedValueException
+     * @throws \ZendSearch\Lucene\Exception\UnexpectedValueException
      * @return array
      */
     public function finishExpression()

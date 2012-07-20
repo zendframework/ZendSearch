@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
 /**
  * @category   Zend
@@ -18,7 +18,7 @@ namespace Zend\Search\Lucene;
 class TermStreamsPriorityQueue implements Index\TermsStreamInterface
 {
     /**
-     * Array of term streams (Zend\Search\Lucene\Index\TermsStreamInterface objects)
+     * Array of term streams (ZendSearch\Lucene\Index\TermsStreamInterface objects)
      *
      * @var array
      */
@@ -27,14 +27,14 @@ class TermStreamsPriorityQueue implements Index\TermsStreamInterface
     /**
      * Terms stream queue
      *
-     * @var \Zend\Search\Lucene\Index\TermsPriorityQueue
+     * @var \ZendSearch\Lucene\Index\TermsPriorityQueue
      */
     protected $_termsStreamQueue = null;
 
     /**
      * Last Term in a terms stream
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     protected $_lastTerm = null;
 
@@ -42,7 +42,7 @@ class TermStreamsPriorityQueue implements Index\TermsStreamInterface
     /**
      * Object constructor
      *
-     * @param array $termStreams  array of term streams (\Zend\Search\Lucene\Index\TermsStreamInterface objects)
+     * @param array $termStreams  array of term streams (\ZendSearch\Lucene\Index\TermsStreamInterface objects)
      */
     public function __construct(array $termStreams)
     {
@@ -75,7 +75,7 @@ class TermStreamsPriorityQueue implements Index\TermsStreamInterface
      *
      * Prefix contains fully specified field info and portion of searched term
      *
-     * @param \Zend\Search\Lucene\Index\Term $prefix
+     * @param \ZendSearch\Lucene\Index\Term $prefix
      */
     public function skipTo(Index\Term $prefix)
     {
@@ -99,7 +99,7 @@ class TermStreamsPriorityQueue implements Index\TermsStreamInterface
     /**
      * Scans term streams and returns next term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function nextTerm()
     {
@@ -133,7 +133,7 @@ class TermStreamsPriorityQueue implements Index\TermsStreamInterface
     /**
      * Returns term in current position
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function currentTerm()
     {

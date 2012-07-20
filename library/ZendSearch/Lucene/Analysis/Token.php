@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis;
+namespace ZendSearch\Lucene\Analysis;
 
 /**
  * @category   Zend

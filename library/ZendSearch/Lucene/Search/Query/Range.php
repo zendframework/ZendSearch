@@ -8,15 +8,15 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query;
+namespace ZendSearch\Lucene\Search\Query;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Exception\OutOfBoundsException;
-use Zend\Search\Lucene\Exception\RuntimeException;
-use Zend\Search\Lucene\Exception\UnsupportedMethodCallException;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\OutOfBoundsException;
+use ZendSearch\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene\Exception\UnsupportedMethodCallException;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
 
 /**
  * @category   Zend
@@ -28,14 +28,14 @@ class Range extends AbstractQuery
     /**
      * Lower term.
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_lowerTerm;
 
     /**
      * Upper term.
      *
-     * @var \Zend\Search\Lucene\Index\Term
+     * @var \ZendSearch\Lucene\Index\Term
      */
     private $_upperTerm;
 
@@ -71,10 +71,10 @@ class Range extends AbstractQuery
     /**
      * Zend_Search_Lucene_Search_Query_Range constructor.
      *
-     * @param \Zend\Search\Lucene\Index\Term|null $lowerTerm
-     * @param \Zend\Search\Lucene\Index\Term|null $upperTerm
+     * @param \ZendSearch\Lucene\Index\Term|null $lowerTerm
+     * @param \ZendSearch\Lucene\Index\Term|null $upperTerm
      * @param boolean $inclusive
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function __construct($lowerTerm, $upperTerm, $inclusive)
     {
@@ -104,7 +104,7 @@ class Range extends AbstractQuery
     /**
      * Get lower term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function getLowerTerm()
     {
@@ -114,7 +114,7 @@ class Range extends AbstractQuery
     /**
      * Get upper term
      *
-     * @return \Zend\Search\Lucene\Index\Term|null
+     * @return \ZendSearch\Lucene\Index\Term|null
      */
     public function getUpperTerm()
     {
@@ -134,9 +134,9 @@ class Range extends AbstractQuery
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @throws \Zend\Search\Lucene\Exception\OutOfBoundsException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @throws \ZendSearch\Lucene\Exception\OutOfBoundsException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {
@@ -222,9 +222,9 @@ class Range extends AbstractQuery
     /**
      * Optimize query in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function optimize(Lucene\SearchIndexInterface $index)
     {
@@ -237,7 +237,7 @@ class Range extends AbstractQuery
      * Return query terms
      *
      * @return array
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     public function getQueryTerms()
     {
@@ -251,8 +251,8 @@ class Range extends AbstractQuery
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      */
     public function createWeight(Lucene\SearchIndexInterface $reader)
     {
@@ -266,9 +266,9 @@ class Range extends AbstractQuery
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      */
     public function execute(Lucene\SearchIndexInterface $reader, $docsFilter = null)
     {
@@ -282,7 +282,7 @@ class Range extends AbstractQuery
      *
      * It's an array with document ids as keys (performance considerations)
      *
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      * @return array
      */
     public function matchedDocs()
@@ -296,8 +296,8 @@ class Range extends AbstractQuery
      * Score specified document
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @throws \Zend\Search\Lucene\Exception\UnsupportedMethodCallException
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @throws \ZendSearch\Lucene\Exception\UnsupportedMethodCallException
      * @return float
      */
     public function score($docId, Lucene\SearchIndexInterface $reader)

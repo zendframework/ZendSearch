@@ -8,14 +8,14 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query\Preprocessing;
+namespace ZendSearch\Lucene\Search\Query\Preprocessing;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Analysis\Analyzer\Analyzer;
-use Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
-use Zend\Search\Lucene\Search\Query;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Analysis\Analyzer\Analyzer;
+use ZendSearch\Lucene\Analysis\Analyzer\AnalyzerInterface;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene\Search\Query;
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
@@ -107,8 +107,8 @@ class Phrase extends AbstractPreprocessing
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {

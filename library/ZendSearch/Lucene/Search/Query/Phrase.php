@@ -8,13 +8,13 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Query;
+namespace ZendSearch\Lucene\Search\Query;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Index;
-use Zend\Search\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
-use Zend\Search\Lucene\Search\Weight;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Index;
+use ZendSearch\Lucene\Search\Highlighter\HighlighterInterface as Highlighter;
+use ZendSearch\Lucene\Search\Weight;
 
 /**
  * A Query that matches documents containing a particular sequence of terms.
@@ -83,7 +83,7 @@ class Phrase extends AbstractQuery
      * @param string $field    Field to search.
      * @param array  $terms    Terms to search Array of strings.
      * @param array  $offsets  Relative term positions. Array of integers.
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function __construct($terms = null, $offsets = null, $field = null)
     {
@@ -144,9 +144,9 @@ class Phrase extends AbstractQuery
      * The relative position of the term is specified explicitly or the one immediately
      * after the last term added.
      *
-     * @param \Zend\Search\Lucene\Index\Term $term
+     * @param \ZendSearch\Lucene\Index\Term $term
      * @param integer $position
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function addTerm(Index\Term $term, $position = null)
     {
@@ -169,8 +169,8 @@ class Phrase extends AbstractQuery
     /**
      * Re-write query into primitive queries in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function rewrite(Lucene\SearchIndexInterface $index)
     {
@@ -202,8 +202,8 @@ class Phrase extends AbstractQuery
     /**
      * Optimize query in the context of specified index
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $index
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @param \ZendSearch\Lucene\SearchIndexInterface $index
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function optimize(Lucene\SearchIndexInterface $index)
     {
@@ -245,7 +245,7 @@ class Phrase extends AbstractQuery
      * Set weight for specified term
      *
      * @param integer $num
-     * @param \Zend\Search\Lucene\Search\Weight\Term $weight
+     * @param \ZendSearch\Lucene\Search\Weight\Term $weight
      */
     public function setWeight($num, $weight)
     {
@@ -256,8 +256,8 @@ class Phrase extends AbstractQuery
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @return \Zend\Search\Lucene\Search\Weight\Phrase
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @return \ZendSearch\Lucene\Search\Weight\Phrase
      */
     public function createWeight(Lucene\SearchIndexInterface $reader)
     {
@@ -315,7 +315,7 @@ class Phrase extends AbstractQuery
      * Score calculator for sloppy phrase queries (terms sequence is fixed)
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     public function _sloppyPhraseFreq($docId, Lucene\SearchIndexInterface $reader)
@@ -391,8 +391,8 @@ class Phrase extends AbstractQuery
      * Execute query in context of index reader
      * It also initializes necessary internal structures
      *
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
-     * @param \Zend\Search\Lucene\Index\DocsFilter|null $docsFilter
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\Index\DocsFilter|null $docsFilter
      */
     public function execute(Lucene\SearchIndexInterface $reader, $docsFilter = null)
     {
@@ -464,7 +464,7 @@ class Phrase extends AbstractQuery
      * Score specified document
      *
      * @param integer $docId
-     * @param \Zend\Search\Lucene\SearchIndexInterface $reader
+     * @param \ZendSearch\Lucene\SearchIndexInterface $reader
      * @return float
      */
     public function score($docId, Lucene\SearchIndexInterface $reader)

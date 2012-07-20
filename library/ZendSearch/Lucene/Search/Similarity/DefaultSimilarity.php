@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\Similarity;
+namespace ZendSearch\Lucene\Search\Similarity;
 
-use Zend\Search\Lucene\Search\Similarity\AbstractSimilarity;
+use ZendSearch\Lucene\Search\Similarity\AbstractSimilarity;
 
 /**
  * @category   Zend

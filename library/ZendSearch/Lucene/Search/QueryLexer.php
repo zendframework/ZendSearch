@@ -8,10 +8,10 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search;
+namespace ZendSearch\Lucene\Search;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Search\Exception\QueryParserException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Search\Exception\QueryParserException;
 
 /**
  * @category   Zend
@@ -312,7 +312,7 @@ class QueryLexer extends Lucene\AbstractFSM
      * @param string $inputString
      * @param string $encoding
      * @return array
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function tokenize($inputString, $encoding)
     {
@@ -361,7 +361,7 @@ class QueryLexer extends Lucene\AbstractFSM
     /**
      * Add query syntax lexeme
      *
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
      */
     public function addQuerySyntaxLexeme()
     {

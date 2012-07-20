@@ -8,12 +8,12 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Document;
+namespace ZendSearch\Lucene\Document;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Document\Exception\InvalidArgumentException;
-use Zend\Search\Lucene\Exception\ExtensionNotLoadedException;
-use Zend\Search\Lucene\Exception\RuntimeException;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Document\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\ExtensionNotLoadedException;
+use ZendSearch\Lucene\Exception\RuntimeException;
 
 /**
  * Docx document.
@@ -36,8 +36,8 @@ class Docx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @throws \Zend\Search\Lucene\Exception\ExtensionNotLoadedException
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\ExtensionNotLoadedException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      */
     private function __construct($fileName, $storeContent)
     {
@@ -130,8 +130,8 @@ class Docx extends AbstractOpenXML
      *
      * @param string  $fileName
      * @param boolean $storeContent
-     * @throws \Zend\Search\Lucene\Document\Exception\InvalidArgumentException
-     * @return \Zend\Search\Lucene\Document\Docx
+     * @throws \ZendSearch\Lucene\Document\Exception\InvalidArgumentException
+     * @return \ZendSearch\Lucene\Document\Docx
      */
     public static function loadDocxFile($fileName, $storeContent = false)
     {

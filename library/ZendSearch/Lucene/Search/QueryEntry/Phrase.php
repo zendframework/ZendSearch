@@ -8,7 +8,7 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Search\QueryEntry;
+namespace ZendSearch\Lucene\Search\QueryEntry;
 
 /**
  * @category   Zend
@@ -77,12 +77,12 @@ class Phrase extends AbstractQueryEntry
      * Transform entry to a subquery
      *
      * @param string $encoding
-     * @throws \Zend\Search\Lucene\Search\Exception\QueryParserException
-     * @return \Zend\Search\Lucene\Search\Query\AbstractQuery
+     * @throws \ZendSearch\Lucene\Search\Exception\QueryParserException
+     * @return \ZendSearch\Lucene\Search\Query\AbstractQuery
      */
     public function getQuery($encoding)
     {
-        $query = new \Zend\Search\Lucene\Search\Query\Preprocessing\Phrase($this->_phrase,
+        $query = new \ZendSearch\Lucene\Search\Query\Preprocessing\Phrase($this->_phrase,
                                                                           $encoding,
                                                                           ($this->_field !== null)?
                                                                               iconv($encoding, 'UTF-8', $this->_field) :

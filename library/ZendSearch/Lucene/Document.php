@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene;
+namespace ZendSearch\Lucene;
 
-use Zend\Search\Lucene\Exception\InvalidArgumentException;
+use ZendSearch\Lucene\Exception\InvalidArgumentException;
 
 /**
  * A Document is a set of fields. Each field has a name and a textual value.
@@ -23,7 +23,7 @@ class Document
 {
 
     /**
-     * Associative array \Zend\Search\Lucene\Document\Field objects where the keys to the
+     * Associative array \ZendSearch\Lucene\Document\Field objects where the keys to the
      * array are the names of the fields.
      *
      * @var array
@@ -65,8 +65,8 @@ class Document
     /**
      * Add a field object to this document.
      *
-     * @param \Zend\Search\Lucene\Document\Field $field
-     * @return \Zend\Search\Lucene\Document
+     * @param \ZendSearch\Lucene\Document\Field $field
+     * @return \ZendSearch\Lucene\Document
      */
     public function addField(Document\Field $field)
     {
@@ -88,11 +88,11 @@ class Document
 
 
     /**
-     * Returns {@link \Zend\Search\Lucene\Document\Field} object for a named field in this document.
+     * Returns {@link \ZendSearch\Lucene\Document\Field} object for a named field in this document.
      *
      * @param string $fieldName
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
-     * @return \Zend\Search\Lucene\Document\Field
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
+     * @return \ZendSearch\Lucene\Document\Field
      */
     public function getField($fieldName)
     {

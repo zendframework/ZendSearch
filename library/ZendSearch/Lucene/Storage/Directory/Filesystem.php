@@ -8,11 +8,11 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Storage\Directory;
+namespace ZendSearch\Lucene\Storage\Directory;
 
-use Zend\Search\Lucene;
-use Zend\Search\Lucene\Storage\Directory;
-use Zend\Search\Lucene\Storage\File;
+use ZendSearch\Lucene;
+use ZendSearch\Lucene\Storage\Directory;
+use ZendSearch\Lucene\Storage\File;
 use Zend\Stdlib\ErrorHandler;
 
 /**
@@ -36,7 +36,7 @@ class Filesystem implements DirectoryInterface
      * Array: filename => Zend_Search_Lucene_Storage_File object
      *
      * @var array
-     * @throws \Zend\Search\Lucene\Exception\ExceptionInterface
+     * @throws \ZendSearch\Lucene\Exception\ExceptionInterface
      */
     protected $_fileHandlers;
 
@@ -98,7 +98,7 @@ class Filesystem implements DirectoryInterface
      * Checks if $path is a directory or tries to create it.
      *
      * @param string $path
-     * @throws \Zend\Search\Lucene\Exception\InvalidArgumentException
+     * @throws \ZendSearch\Lucene\Exception\InvalidArgumentException
      */
     public function __construct($path)
     {
@@ -161,7 +161,7 @@ class Filesystem implements DirectoryInterface
      * Creates a new, empty file in the directory with the given $filename.
      *
      * @param string $filename
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
      */
     public function createFile($filename)
     {
@@ -185,7 +185,7 @@ class Filesystem implements DirectoryInterface
      * Removes an existing $filename in the directory.
      *
      * @param string $filename
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return void
      */
     public function deleteFile($filename)
@@ -266,7 +266,7 @@ class Filesystem implements DirectoryInterface
      *
      * @param string $from
      * @param string $to
-     * @throws \Zend\Search\Lucene\Exception\RuntimeException
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
      * @return void
      */
     public function renameFile($from, $to)
@@ -330,7 +330,7 @@ class Filesystem implements DirectoryInterface
      *
      * @param string $filename
      * @param boolean $shareHandler
-     * @return \Zend\Search\Lucene\Storage\File\FileInterface
+     * @return \ZendSearch\Lucene\Storage\File\FileInterface
      */
     public function getFileObject($filename, $shareHandler = true)
     {

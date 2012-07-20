@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace Zend\Search\Lucene\Analysis\Analyzer;
+namespace ZendSearch\Lucene\Analysis\Analyzer;
 
-use Zend\Search\Lucene\Analysis\Analyzer\AnalyzerInterface as LuceneAnalyzer;
+use ZendSearch\Lucene\Analysis\Analyzer\AnalyzerInterface as LuceneAnalyzer;
 
 /**
  * General analyzer implementation.
@@ -37,7 +37,7 @@ abstract class AbstractAnalyzer implements LuceneAnalyzer
 
     /**
      * Tokenize text to a terms
-     * Returns array of \Zend\Search\Lucene\Analysis\Token objects
+     * Returns array of \ZendSearch\Lucene\Analysis\Token objects
      *
      * Tokens are returned in UTF-8 (internal Zend_Search_Lucene encoding)
      *

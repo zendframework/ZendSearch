@@ -8,9 +8,9 @@
  * @package   Zend_Search
  */
 
-namespace ZendTest\Search\Lucene\Index;
+namespace ZendSearchTest\Lucene\Index;
 
-use Zend\Search\Lucene\Index;
+use ZendSearch\Lucene\Index;
 
 /**
  * @category   Zend
