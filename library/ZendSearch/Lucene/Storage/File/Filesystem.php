@@ -21,18 +21,40 @@ use Zend\Stdlib\ErrorHandler;
 class Filesystem extends AbstractFile
 {
     /**
+     * Holding the currently active (opened) Filesystem instance. Needed to prevent the system
+     * from opening multiple file handles in parallel.
+     *
+     * @var Filesystem
+     */
+    private static $openFile = null;
+
+    /**
      * Resource of the open file
      *
      * @var resource
      */
     protected $_fileHandle;
 
-    private $isLocked = false;
-    private $seek = 0;
-    private $filename;
-    private $mode;
+    /**
+     * Current position in the file
+     *
+     * @var int
+     */
+    private $_seek = 0;
 
-    private static $fileHandleCount = 0;
+    /**
+     * Name of the opened file
+     *
+     * @var string
+     */
+    private $_filename;
+
+    /**
+     * Mode of the file
+     *
+     * @var string
+     */
+    private $_mode;
 
 
     /**
@@ -45,22 +67,18 @@ class Filesystem extends AbstractFile
      */
     public function __construct($filename, $mode='r+b')
     {
-        global $php_errormsg;
-
         if (strpos($mode, 'w') === false  &&  !is_readable($filename)) {
             // opening for reading non-readable file
             throw new Lucene\Exception\InvalidArgumentException('File \'' . $filename . '\' is not readable.');
         }
 
-        $trackErrors = ini_get('track_errors');
-        ini_set('track_errors', '1');
+        $this->_filename = $filename;
+        $this->_mode = $mode;
 
-        $this->filename = $filename;
-        $this->mode = $mode;
-
-        if(!is_file($this->filename))
+        // We always want the file to be present. Even if we don't use it for writing.
+        if(!is_file($this->_filename))
         {
-            touch($this->filename);
+            touch($this->_filename);
         }
     }
 
@@ -84,46 +102,82 @@ class Filesystem extends AbstractFile
      */
     public function seek($offset, $whence=SEEK_SET)
     {
-        $this->doOpen();
-        $res = fseek($this->_fileHandle, $offset, $whence);
-        $this->doClose();
-        return $res;
+        $this->_beforeFileOperation();
+        $result = fseek($this->_fileHandle, $offset, $whence);
+        $this->_afterFileOperation();
+        return $result;
     }
 
-    private function doOpen()
+    /**
+     * Needs to be called before a file operation is executed on the file
+     * handle. Makes sure that the file handle is opened with the required
+     * mode.
+     *
+     * @throws \ZendSearch\Lucene\Exception\RuntimeException
+     */
+    private function _beforeFileOperation()
     {
-        if($this->_fileHandle === null)
-        {
-            $this->_fileHandle = fopen($this->filename, $this->mode);
-            fseek($this->_fileHandle, $this->seek);
+        global $php_errormsg;
 
-            self::$fileHandleCount++;
-            if(self::$fileHandleCount > 1)
-            {
-                echo self::$fileHandleCount . "\n";
-            }
-
-            $this->mode = str_replace("w+", "r+", $this->mode);
-            $this->mode = str_replace("w", "a", $this->mode);
-        }
-    }
-
-    private function doClose()
-    {
-        if($this->_fileHandle !== null)
-        {
-            $this->seek = ftell($this->_fileHandle);
-        }
-/*
-        if($this->isLocked)
-        {
+        // If file handle is set it is also open
+        if ($this->_fileHandle !== null) {
             return;
         }
-*/
-        fflush($this->_fileHandle);
-        fclose($this->_fileHandle);
-        $this->_fileHandle = null;
-        self::$fileHandleCount--;
+
+        $trackErrors = ini_get('track_errors');
+        ini_set('track_errors', '1');
+
+        $this->_fileHandle = @fopen($this->_filename, $this->_mode);
+
+        if ($this->_fileHandle === false) {
+            ini_set('track_errors', $trackErrors);
+            throw new Lucene\Exception\RuntimeException($php_errormsg);
+        }
+
+        // Seek to the position we stopped last time
+        fseek($this->_fileHandle, $this->_seek);
+
+        // Close other file handle if one is open
+        if (self::$openFile !== null && self::$openFile !== $this) {
+            self::$openFile->_afterFileOperation(true);
+        }
+
+        // Remember this file to be open
+        self::$openFile = $this;
+
+        // We don't want to truncate the file to zero length when opening it a second time
+        // later. So we will change "w+" mode to "r+" and "w" to "a".
+        $this->_mode = str_replace("w+", "r+", $this->_mode);
+        $this->_mode = str_replace("w", "a", $this->_mode);
+
+        ini_set('track_errors', $trackErrors);
+    }
+
+    /**
+     * Called after a file operation has been completed. Stores the current position
+     * of the file pointer for later use. If $forceClose is set, the file handle will
+     * be closed.
+     *
+     * @param bool $forceClose
+     */
+    private function _afterFileOperation($forceClose=false)
+    {
+        // Remember current position for the next file operation
+        if ($this->_fileHandle !== null) {
+            $this->_seek = ftell($this->_fileHandle);
+        }
+
+        // Close file if requested
+        if ($forceClose) {
+            ErrorHandler::start(E_WARNING);
+            fclose($this->_fileHandle);
+            ErrorHandler::stop();
+            $this->_fileHandle = null;
+
+            if (self::$openFile === $this) {
+                self::$openFile = null;
+            }
+        }
     }
 
 
@@ -134,7 +188,7 @@ class Filesystem extends AbstractFile
      */
     public function tell()
     {
-        return $this->seek;
+        return $this->_seek;
     }
 
     /**
@@ -146,12 +200,10 @@ class Filesystem extends AbstractFile
      */
     public function flush()
     {
-        if($this->_fileHandle !== null)
-        {
+        if ($this->_fileHandle !== null) {
             return fflush($this->_fileHandle);
         }
-        else
-        {
+        else {
             return true;
         }
     }
@@ -161,15 +213,8 @@ class Filesystem extends AbstractFile
      */
     public function close()
     {
-        if($this->_fileHandle !== null)
-        {
-            /*
-            if($this->isLocked)
-            {
-                $this->unlock();
-            }
-            */
-            $this->doClose();
+        if ($this->_fileHandle !== null) {
+            $this->_afterFileOperation(true);
         }
     }
 
@@ -180,8 +225,11 @@ class Filesystem extends AbstractFile
      */
     public function size()
     {
-        clearstatcache(false, $this->filename);
-        return is_file($this->filename) ? filesize($this->filename) : 0;
+        // Clears the cache for this file. Otherwise we will get wrong return values
+        // for filesize().
+        clearstatcache(false, $this->_filename);
+
+        return is_file($this->_filename) ? filesize($this->_filename) : 0;
     }
 
     /**
@@ -196,11 +244,11 @@ class Filesystem extends AbstractFile
             return '';
         }
 
-        $this->doOpen();
+        $this->_beforeFileOperation();
 
         if ($length < 1024) {
             $res = fread($this->_fileHandle, $length);
-            $this->doClose();
+            $this->_afterFileOperation();
             return $res;
         }
 
@@ -209,7 +257,9 @@ class Filesystem extends AbstractFile
             $data .= $nextBlock;
             $length -= strlen($nextBlock);
         }
-        $this->doClose();
+
+        $this->_afterFileOperation();
+
         return $data;
     }
 
@@ -223,13 +273,13 @@ class Filesystem extends AbstractFile
      */
     protected function _fwrite($data, $length=null)
     {
-        $this->doOpen();
+        $this->_beforeFileOperation();
         if ($length === null ) {
             fwrite($this->_fileHandle, $data);
         } else {
             fwrite($this->_fileHandle, $data, $length);
         }
-        $this->doClose();
+        $this->_afterFileOperation();
     }
 
     /**
@@ -243,14 +293,13 @@ class Filesystem extends AbstractFile
      */
     public function lock($lockType, $nonBlockingLock = false)
     {
-        $this->doOpen();
+        $this->_beforeFileOperation();
         if ($nonBlockingLock) {
             $res = flock($this->_fileHandle, $lockType | LOCK_NB);
         } else {
             $res = flock($this->_fileHandle, $lockType);
         }
-        $this->doClose();
-        $this->isLocked = true;
+        $this->_afterFileOperation();
         return $res;
     }
 
@@ -263,11 +312,10 @@ class Filesystem extends AbstractFile
      */
     public function unlock()
     {
-        $this->doOpen();
+        $this->_beforeFileOperation();
         if ($this->_fileHandle !== null ) {
             $res = flock($this->_fileHandle, LOCK_UN);
-            $this->isLocked = false;
-            $this->doClose();
+            $this->_afterFileOperation();
             return $res;
         } else {
             return true;
