@@ -32,6 +32,8 @@ class Filesystem extends AbstractFile
     private $filename;
     private $mode;
 
+    private static $fileHandleCount = 0;
+
 
     /**
      * Class constructor.  Open the file.
@@ -95,7 +97,14 @@ class Filesystem extends AbstractFile
             $this->_fileHandle = fopen($this->filename, $this->mode);
             fseek($this->_fileHandle, $this->seek);
 
+            self::$fileHandleCount++;
+            if(self::$fileHandleCount > 1)
+            {
+                echo self::$fileHandleCount . "\n";
+            }
+
             $this->mode = str_replace("w+", "r+", $this->mode);
+            $this->mode = str_replace("w", "a", $this->mode);
         }
     }
 
@@ -105,15 +114,16 @@ class Filesystem extends AbstractFile
         {
             $this->seek = ftell($this->_fileHandle);
         }
-
+/*
         if($this->isLocked)
         {
             return;
         }
-
+*/
         fflush($this->_fileHandle);
         fclose($this->_fileHandle);
         $this->_fileHandle = null;
+        self::$fileHandleCount--;
     }
 
 
@@ -239,6 +249,7 @@ class Filesystem extends AbstractFile
         } else {
             $res = flock($this->_fileHandle, $lockType);
         }
+        $this->doClose();
         $this->isLocked = true;
         return $res;
     }
@@ -252,6 +263,7 @@ class Filesystem extends AbstractFile
      */
     public function unlock()
     {
+        $this->doOpen();
         if ($this->_fileHandle !== null ) {
             $res = flock($this->_fileHandle, LOCK_UN);
             $this->isLocked = false;
