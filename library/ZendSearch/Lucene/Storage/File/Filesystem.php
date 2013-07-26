@@ -27,6 +27,11 @@ class Filesystem extends AbstractFile
      */
     protected $_fileHandle;
 
+    private $isLocked = false;
+    private $seek = 0;
+    private $filename;
+    private $mode;
+
 
     /**
      * Class constructor.  Open the file.
@@ -48,14 +53,13 @@ class Filesystem extends AbstractFile
         $trackErrors = ini_get('track_errors');
         ini_set('track_errors', '1');
 
-        $this->_fileHandle = @fopen($filename, $mode);
+        $this->filename = $filename;
+        $this->mode = $mode;
 
-        if ($this->_fileHandle === false) {
-            ini_set('track_errors', $trackErrors);
-            throw new Lucene\Exception\RuntimeException($php_errormsg);
+        if(!is_file($this->filename))
+        {
+            touch($this->filename);
         }
-
-        ini_set('track_errors', $trackErrors);
     }
 
     /**
@@ -78,7 +82,38 @@ class Filesystem extends AbstractFile
      */
     public function seek($offset, $whence=SEEK_SET)
     {
-        return fseek($this->_fileHandle, $offset, $whence);
+        $this->doOpen();
+        $res = fseek($this->_fileHandle, $offset, $whence);
+        $this->doClose();
+        return $res;
+    }
+
+    private function doOpen()
+    {
+        if($this->_fileHandle === null)
+        {
+            $this->_fileHandle = fopen($this->filename, $this->mode);
+            fseek($this->_fileHandle, $this->seek);
+
+            $this->mode = str_replace("w+", "r+", $this->mode);
+        }
+    }
+
+    private function doClose()
+    {
+        if($this->_fileHandle !== null)
+        {
+            $this->seek = ftell($this->_fileHandle);
+        }
+
+        if($this->isLocked)
+        {
+            return;
+        }
+
+        fflush($this->_fileHandle);
+        fclose($this->_fileHandle);
+        $this->_fileHandle = null;
     }
 
 
@@ -89,7 +124,7 @@ class Filesystem extends AbstractFile
      */
     public function tell()
     {
-        return ftell($this->_fileHandle);
+        return $this->seek;
     }
 
     /**
@@ -101,7 +136,14 @@ class Filesystem extends AbstractFile
      */
     public function flush()
     {
-        return fflush($this->_fileHandle);
+        if($this->_fileHandle !== null)
+        {
+            return fflush($this->_fileHandle);
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -109,11 +151,15 @@ class Filesystem extends AbstractFile
      */
     public function close()
     {
-        if ($this->_fileHandle !== null ) {
-            ErrorHandler::start(E_WARNING);
-            fclose($this->_fileHandle);
-            ErrorHandler::stop();
-            $this->_fileHandle = null;
+        if($this->_fileHandle !== null)
+        {
+            /*
+            if($this->isLocked)
+            {
+                $this->unlock();
+            }
+            */
+            $this->doClose();
         }
     }
 
@@ -124,12 +170,8 @@ class Filesystem extends AbstractFile
      */
     public function size()
     {
-        $position = ftell($this->_fileHandle);
-        fseek($this->_fileHandle, 0, SEEK_END);
-        $size = ftell($this->_fileHandle);
-        fseek($this->_fileHandle,$position);
-
-        return $size;
+        clearstatcache(false, $this->filename);
+        return is_file($this->filename) ? filesize($this->filename) : 0;
     }
 
     /**
@@ -144,8 +186,12 @@ class Filesystem extends AbstractFile
             return '';
         }
 
+        $this->doOpen();
+
         if ($length < 1024) {
-            return fread($this->_fileHandle, $length);
+            $res = fread($this->_fileHandle, $length);
+            $this->doClose();
+            return $res;
         }
 
         $data = '';
@@ -153,6 +199,7 @@ class Filesystem extends AbstractFile
             $data .= $nextBlock;
             $length -= strlen($nextBlock);
         }
+        $this->doClose();
         return $data;
     }
 
@@ -166,11 +213,13 @@ class Filesystem extends AbstractFile
      */
     protected function _fwrite($data, $length=null)
     {
+        $this->doOpen();
         if ($length === null ) {
             fwrite($this->_fileHandle, $data);
         } else {
             fwrite($this->_fileHandle, $data, $length);
         }
+        $this->doClose();
     }
 
     /**
@@ -184,11 +233,14 @@ class Filesystem extends AbstractFile
      */
     public function lock($lockType, $nonBlockingLock = false)
     {
+        $this->doOpen();
         if ($nonBlockingLock) {
-            return flock($this->_fileHandle, $lockType | LOCK_NB);
+            $res = flock($this->_fileHandle, $lockType | LOCK_NB);
         } else {
-            return flock($this->_fileHandle, $lockType);
+            $res = flock($this->_fileHandle, $lockType);
         }
+        $this->isLocked = true;
+        return $res;
     }
 
     /**
@@ -201,7 +253,10 @@ class Filesystem extends AbstractFile
     public function unlock()
     {
         if ($this->_fileHandle !== null ) {
-            return flock($this->_fileHandle, LOCK_UN);
+            $res = flock($this->_fileHandle, LOCK_UN);
+            $this->isLocked = false;
+            $this->doClose();
+            return $res;
         } else {
             return true;
         }
