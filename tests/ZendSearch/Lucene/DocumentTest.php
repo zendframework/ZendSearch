@@ -176,7 +176,13 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $hits = $index->find('ZendFramework');
         $this->assertEquals(count($hits), 1);
 
+        // IMPORTANT : if we want to clean the directory, the instance of Index has to be actually destroyed first,
+        // so that it releases its file locks. In case of additional indirect references, we need a manual cycle
+        // of garbage collection to flush the pending objects.
         unset($index);
+        unset($hits); // QueryHit instances hold a reference on their owner Index instance
+        gc_collect_cycles(); // force the destructors to be called right now
+
         $this->_clearDirectory(__DIR__ . '/_index/_files');
     }
 
