@@ -23,6 +23,18 @@ use ZendSearch\Lucene\Document;
  */
 class Search23Test extends \PHPUnit_Framework_TestCase
 {
+    private function checkResults($hits, $expected)
+    {
+        $this->assertEquals(count($hits), count($expected));
+
+        foreach ($hits as $resId => $hit)
+        {
+            $this->assertEquals($hit->id, $expected[$resId][0]);
+            $this->assertTrue( abs($hit->score - $expected[$resId][1]) < 0.000001 );
+            $this->assertEquals($hit->path, $expected[$resId][2]);
+        }
+    }
+
     public function testQueryParser()
     {
         $wildcardMinPrefix = Query\Wildcard::getMinPrefixLength();
@@ -158,16 +170,11 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('submitting');
 
-        $this->assertEquals(count($hits), 3);
         $expectedResultset = array(array(2, 0.114555, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.112241, 'IndexSource/contributing.bugs.html'),
                                    array(8, 0.112241, 'IndexSource/contributing.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testMultiTermQuery()
@@ -176,30 +183,23 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('submitting AND wishlists');
 
-        $this->assertEquals(count($hits), 1);
+        $expectedResultset = array(array(8, 0.141633, 'IndexSource/contributing.html'));
 
-        $this->assertEquals($hits[0]->id, 8);
-        $this->assertTrue( abs($hits[0]->score - 0.141633) < 0.000001 );
-        $this->assertEquals($hits[0]->path, 'IndexSource/contributing.html');
+        $this->checkResults($hits, $expectedResultset);
     }
 
-    public function testPraseQuery()
+    public function testPhraseQuery()
     {
         $index = Lucene\Lucene::open(__DIR__ . '/_index23Sample/_files');
 
         $hits = $index->find('"reporting bugs"');
 
-        $this->assertEquals(count($hits), 4);
         $expectedResultset = array(array(0, 0.247795, 'IndexSource/contributing.documentation.html'),
                                    array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
                                    array(8, 0.212395, 'IndexSource/contributing.html'),
                                    array(2, 0.176996, 'IndexSource/contributing.patches.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testQueryParserKeywordsHandlingPhrase()
@@ -217,14 +217,9 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"IndexSource/contributing.bugs.html"');
 
-        $this->assertEquals(count($hits), 1);
         $expectedResultset = array(array(7, 1, 'IndexSource/contributing.bugs.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testQueryParserKeywordsHandlingTerm()
@@ -242,7 +237,6 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('IndexSource\/contributing\.wishlist\.html AND Home');
 
-        $this->assertEquals(count($hits), 9);
         $expectedResultset = array(array(1, 1.000000, 'IndexSource/contributing.wishlist.html'),
                                    array(8, 0.167593, 'IndexSource/contributing.html'),
                                    array(0, 0.154047, 'IndexSource/contributing.documentation.html'),
@@ -253,11 +247,7 @@ class Search23Test extends \PHPUnit_Framework_TestCase
                                    array(5, 0.038530, 'IndexSource/authors.html'),
                                    array(4, 0.036261, 'IndexSource/copyright.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testBooleanQuery()
@@ -266,15 +256,10 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('submitting AND (wishlists OR requirements)');
 
-        $this->assertEquals(count($hits), 2);
         $expectedResultset = array(array(7, 0.095697, 'IndexSource/contributing.bugs.html'),
                                    array(8, 0.075573, 'IndexSource/contributing.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testBooleanQueryWithPhraseSubquery()
@@ -283,14 +268,9 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"PEAR developers" AND Home');
 
-        $this->assertEquals(count($hits), 1);
         $expectedResultset = array(array(1, 0.168270, 'IndexSource/contributing.wishlist.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testBooleanQueryWithNonExistingPhraseSubquery()
@@ -314,14 +294,9 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"PEAR developers" AND Home AND 123456787654321');
 
-        $this->assertEquals(count($hits), 1);
         $expectedResultset = array(array(1, 0.168270, 'IndexSource/contributing.wishlist.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testWildcardQuery()
@@ -333,7 +308,6 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('*cont*');
 
-        $this->assertEquals(count($hits), 9);
         $expectedResultset = array(array(8, 0.328087, 'IndexSource/contributing.html'),
                                    array(2, 0.318592, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.260137, 'IndexSource/contributing.bugs.html'),
@@ -344,11 +318,7 @@ class Search23Test extends \PHPUnit_Framework_TestCase
                                    array(5, 0.010150, 'IndexSource/authors.html'),
                                    array(9, 0.003504, 'IndexSource/core.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
 
         Query\Wildcard::setMinPrefixLength($wildcardMinPrefix);
     }
@@ -362,7 +332,6 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('tesd~0.4');
 
-        $this->assertEquals(count($hits), 9);
         $expectedResultset = array(array(2, 0.037139, 'IndexSource/contributing.patches.html'),
                                    array(0, 0.008735, 'IndexSource/contributing.documentation.html'),
                                    array(7, 0.002449, 'IndexSource/contributing.bugs.html'),
@@ -373,11 +342,7 @@ class Search23Test extends \PHPUnit_Framework_TestCase
                                    array(8, 0.000414, 'IndexSource/contributing.html'),
                                    array(4, 0.000345, 'IndexSource/copyright.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
 
         Query\Fuzzy::setDefaultPrefixLength($defaultPrefixLength);
     }
@@ -388,18 +353,13 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('[xml TO zzzzz]');
 
-        $this->assertEquals(count($hits), 5);
         $expectedResultset = array(array(4, 0.156366, 'IndexSource/copyright.html'),
                                    array(2, 0.080458, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.060214, 'IndexSource/contributing.bugs.html'),
                                    array(1, 0.009687, 'IndexSource/contributing.wishlist.html'),
                                    array(5, 0.005871, 'IndexSource/authors.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testNonInclusiveRangeQuery()
@@ -408,18 +368,13 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('{xml TO zzzzz}');
 
-        $this->assertEquals(count($hits), 5);
         $expectedResultset = array(array(2, 0.1308671, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.0979391, 'IndexSource/contributing.bugs.html'),
                                    array(4, 0.0633930, 'IndexSource/copyright.html'),
                                    array(1, 0.0157556, 'IndexSource/contributing.wishlist.html'),
                                    array(5, 0.0095493, 'IndexSource/authors.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testDefaultSearchField()
@@ -431,18 +386,13 @@ class Search23Test extends \PHPUnit_Framework_TestCase
         Lucene\Lucene::setDefaultSearchField('path');
         $hits = $index->find('contributing');
 
-        $this->assertEquals(count($hits), 5);
         $expectedResultset = array(array(8, 0.847922, 'IndexSource/contributing.html'),
                                    array(0, 0.678337, 'IndexSource/contributing.documentation.html'),
                                    array(1, 0.678337, 'IndexSource/contributing.wishlist.html'),
                                    array(2, 0.678337, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.678337, 'IndexSource/contributing.bugs.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
 
         Lucene\Lucene::setDefaultSearchField($storedDefaultSearchField);
     }
@@ -491,17 +441,12 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"reporting bugs"', 'path');
 
-        $this->assertEquals(count($hits), 4);
         $expectedResultset = array(array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
                                    array(0, 0.247795, 'IndexSource/contributing.documentation.html'),
                                    array(8, 0.212395, 'IndexSource/contributing.html'),
                                    array(2, 0.176996, 'IndexSource/contributing.patches.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testSortingResultByScore()
@@ -510,31 +455,21 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"reporting bugs"', 'score', SORT_NUMERIC, SORT_ASC,
                                                  'path',  SORT_STRING,  SORT_ASC);
-        $this->assertEquals(count($hits), 4);
         $expectedResultset = array(array(2, 0.176996, 'IndexSource/contributing.patches.html'),
                                    array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
                                    array(8, 0.212395, 'IndexSource/contributing.html'),
                                    array(0, 0.247795, 'IndexSource/contributing.documentation.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
 
         $hits = $index->find('"reporting bugs"', 'score', SORT_NUMERIC, SORT_ASC,
                                                  'path',  SORT_STRING,  SORT_DESC);
-        $this->assertEquals(count($hits), 4);
         $expectedResultset = array(array(2, 0.176996, 'IndexSource/contributing.patches.html'),
                                    array(8, 0.212395, 'IndexSource/contributing.html'),
                                    array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
                                    array(0, 0.247795, 'IndexSource/contributing.documentation.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
     }
 
     public function testLimitingResult()
@@ -547,17 +482,40 @@ class Search23Test extends \PHPUnit_Framework_TestCase
 
         $hits = $index->find('"reporting bugs"', 'path');
 
-        $this->assertEquals(count($hits), 3);
         $expectedResultset = array(array(7, 0.212395, 'IndexSource/contributing.bugs.html'),
                                    array(0, 0.247795, 'IndexSource/contributing.documentation.html'),
                                    array(2, 0.176996, 'IndexSource/contributing.patches.html'));
 
-        foreach ($hits as $resId => $hit) {
-            $this->assertEquals($hit->id, $expectedResultset[$resId][0]);
-            $this->assertTrue( abs($hit->score - $expectedResultset[$resId][1]) < 0.000001 );
-            $this->assertEquals($hit->path, $expectedResultset[$resId][2]);
-        }
+        $this->checkResults($hits, $expectedResultset);
 
         Lucene\Lucene::setResultSetLimit($storedResultSetLimit);
+    }
+
+    public function testQueryAPIPhraseExact()
+    {
+        $index = Lucene\Lucene::open(__DIR__ . '/_index23Sample/_files');
+
+        $query = new Query\Phrase(array('latest', 'sources', 'of', 'the', 'package'));
+
+        $hits = $index->find($query);
+
+        $expectedResultset = array(array(2, 0.333882, 'IndexSource/contributing.patches.html'));
+
+        $this->checkResults($hits, $expectedResultset);
+    }
+
+    public function testQueryAPIPhraseExactWithAlts()
+    {
+        $index = Lucene\Lucene::open(__DIR__ . '/_index23Sample/_files');
+
+        $query = new Query\Phrase(array('latest', 'version', 'sources', 'of', 'the', 'package'),
+                                  array( 0,        1,         1,         2,    3,     4));
+
+        $hits = $index->find($query);
+
+        $expectedResultset = array(array(7, 0.626589, 'IndexSource/contributing.bugs.html'),
+                                   array(2, 0.369221, 'IndexSource/contributing.patches.html'));
+
+        $this->checkResults($hits, $expectedResultset);
     }
 }
