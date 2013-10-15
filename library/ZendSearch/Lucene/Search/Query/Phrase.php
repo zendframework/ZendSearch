@@ -35,6 +35,11 @@ class Phrase extends AbstractQuery
 
     /**
      * Term positions (relative positions of terms within the phrase).
+     *
+     * If several terms have the same offset, they will be considered as alternate
+     * terms for the word at this position, thus making stemming easier (for example).
+     * NOTE: This feature is supported only with exact search (i.e. slop = 0).
+     *
      * Array of integers
      *
      * @var array
@@ -143,6 +148,8 @@ class Phrase extends AbstractQuery
      * Adds a term to the end of the query phrase.
      * The relative position of the term is specified explicitly or the one immediately
      * after the last term added.
+     * Duplicate offsets can be used to provide several variations for a word (UNSUPPORTED
+     * YET IN SLOPPY MODE).
      *
      * @param \ZendSearch\Lucene\Index\Term $term
      * @param integer $position
@@ -207,10 +214,59 @@ class Phrase extends AbstractQuery
      */
     public function optimize(Lucene\SearchIndexInterface $index)
     {
-        // Check, that index contains all phrase terms
-        foreach ($this->_terms as $term) {
-            if (!$index->hasTerm($term)) {
-                return new EmptyResult();
+        // now look for possible alternate terms at one or more positions
+        $nbUniqueOffsets = count(array_flip($this->_offsets));
+
+        if (count($this->_offsets) > $nbUniqueOffsets) // alts found
+        {
+            if ($nbUniqueOffsets == 1)
+            {
+                // several terms but all at same offset (for example several stems of a single input word)
+                $optimizedQuery = new MultiTerm($this->_terms, array_fill(0, count($this->_terms), null));
+                $optimizedQuery->setBoost($this->getBoost());
+                return $optimizedQuery->optimize($index);
+            }
+
+            // first, group the query terms according to their offset
+            $offsetAlts = array_fill_keys($this->_offsets, array());
+            foreach ($this->_offsets as $termId => $offset)
+                $offsetAlts[$offset][] = $termId;
+
+            // then for each offset, check that the index contains at least one alt
+            foreach ($offsetAlts as $alts)
+            {
+                $check = false;
+
+                foreach ($alts as $termId)
+                {
+                    if ($index->hasTerm($this->_terms[$termId]))
+                    {
+                        $check = true;
+
+                        // PERFORMANCE NOTE
+                        // we could break here to save hasTerm() calls (costly) but "usually" the time lost here is less than
+                        // what we gain later if we keep processing the alts to unset them if possible (although it heavily
+                        // depends on the index content, stemming efficiency and input queries)
+                        //break;
+                    }
+                    else
+                    {
+                        unset($this->_terms[$termId]);
+                        unset($this->_offsets[$termId]);
+                    }
+                }
+
+                if (!$check)
+                    return new EmptyResult();
+            }
+        }
+        else // only one term per offset
+        {
+            // Check, that index contains all phrase terms
+            foreach ($this->_terms as $term) {
+                if (!$index->hasTerm($term)) {
+                    return new EmptyResult();
+                }
             }
         }
 
@@ -276,31 +332,61 @@ class Phrase extends AbstractQuery
     {
         $freq = 0;
 
-        // Term Id with lowest cardinality
-        $lowCardTermId = null;
+        // offset with the lowest total (for all alts if any) cardinality
+        $lowCardOffset = 0;
+        $lowCard = PHP_INT_MAX;
 
-        // Calculate $lowCardTermId
-        foreach ($this->_terms as $termId => $term) {
-            if ($lowCardTermId === null ||
-                count($this->_termsPositions[$termId][$docId]) <
-                count($this->_termsPositions[$lowCardTermId][$docId]) ) {
-                    $lowCardTermId = $termId;
-                }
+        // group the terms according to their offset, also filtering alts not found in this doc
+        $docAlts = array_fill_keys($this->_offsets, array());
+        foreach ($this->_offsets as $termId => $offset)
+            if (isset($this->_termsPositions[$termId][$docId]))
+                $docAlts[$offset][] = $termId;
+
+        // look for the offset where total cardinality is the lowest
+        foreach ($docAlts as $offset => $alts)
+        {
+            $card = 0;
+
+            foreach ($alts as $termId)
+                $card += count($this->_termsPositions[$termId][$docId]);
+
+            if ($card < $lowCard)
+            {
+                $lowCardOffset = $offset;
+                $lowCard = $card;
+            }
         }
 
-        // Walk through positions of the term with lowest cardinality
-        foreach ($this->_termsPositions[$lowCardTermId][$docId] as $lowCardPos) {
-            // We expect phrase to be found
-            $freq++;
+        // split the term list
+        $lowCardAlts = $docAlts[$lowCardOffset];
+        unset($docAlts[$lowCardOffset]);
 
-            // Walk through other terms
-            foreach ($this->_terms as $termId => $term) {
-                if ($termId != $lowCardTermId) {
-                    $expectedPosition = $lowCardPos +
-                                            ($this->_offsets[$termId] -
-                                             $this->_offsets[$lowCardTermId]);
+        // Walk through positions of all the alts at the offset with lowest cardinality
+        foreach ($lowCardAlts as $lowCardTermId)
+        {
+            foreach ($this->_termsPositions[$lowCardTermId][$docId] as $lowCardPos)
+            {
+                // We expect phrase to be found
+                $freq++;
 
-                    if (!in_array($expectedPosition, $this->_termsPositions[$termId][$docId])) {
+                // Walk through other terms
+                foreach ($docAlts as $offset => $alts)
+                {
+                    // at least one alt must fulfill each remaining position (other than lowCardPos)
+                    $expectedPosition = $lowCardPos + $offset - $lowCardOffset;
+                    $match = false;
+
+                    foreach ($alts as $termId)
+                    {
+                        if (in_array($expectedPosition, $this->_termsPositions[$termId][$docId]))
+                        {
+                            $match = true;
+                            break;
+                        }
+                    }
+
+                    if (!$match)
+                    {
                         $freq--;  // Phrase wasn't found.
                         break;
                     }
@@ -402,16 +488,32 @@ class Phrase extends AbstractQuery
             $this->_resVector = array();
         }
 
-        $resVectors      = array();
-        $resVectorsSizes = array();
-        $resVectorsIds   = array(); // is used to prevent arrays comparison
-        foreach ($this->_terms as $termId => $term) {
-            $resVectors[]      = array_flip($reader->termDocs($term));
-            $resVectorsSizes[] = count(end($resVectors));
-            $resVectorsIds[]   = $termId;
+        $offsetDocs = array();
+
+        // merge docs ids matching terms at the same offset
+        foreach ($this->_terms as $termId => $term)
+        {
+            $offset = $this->_offsets[$termId];
+
+            if (isset($offsetDocs[$offset]))
+                $offsetDocs[$offset] = array_merge($offsetDocs[$offset], $reader->termDocs($term));
+            else
+                $offsetDocs[$offset] = $reader->termDocs($term);
 
             $this->_termsPositions[$termId] = $reader->termPositions($term);
         }
+
+        $resVectors      = array();
+        $resVectorsSizes = array();
+        $resVectorsIds   = array(); // is used to prevent arrays comparison
+
+        foreach ($offsetDocs as $offset => $docs)
+        {
+            $resVectors[]      = array_flip($docs); // also deal with duplicates
+            $resVectorsSizes[] = count(end($resVectors));
+            $resVectorsIds[]   = $offset;
+        }
+
         // sort resvectors in order of subquery cardinality increasing
         array_multisort($resVectorsSizes, SORT_ASC, SORT_NUMERIC,
                         $resVectorsIds,   SORT_ASC, SORT_NUMERIC,
@@ -422,7 +524,6 @@ class Phrase extends AbstractQuery
                 $this->_resVector = $nextResVector;
             } else {
                 //$this->_resVector = array_intersect_key($this->_resVector, $nextResVector);
-
                 /**
                  * This code is used as workaround for array_intersect_key() slowness problem.
                  */
@@ -433,11 +534,11 @@ class Phrase extends AbstractQuery
                     }
                 }
                 $this->_resVector = $updatedVector;
-            }
 
-            if (count($this->_resVector) == 0) {
-                // Empty result set, we don't need to check other terms
-                break;
+                if (count($this->_resVector) == 0) {
+                    // Empty result set, we don't need to check other terms
+                    break;
+                }
             }
         }
 
