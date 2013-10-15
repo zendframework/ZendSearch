@@ -1077,8 +1077,9 @@ class SegmentInfo implements TermsStreamInterface
                             }
                         } else {
                             $docId += $docDelta/2;
+                            $freq = $frqFile->readVInt();
                             if (isset($filter[$docId])) {
-                                $result[$shift + $docId] = $frqFile->readVInt();
+                                $result[$shift + $docId] = $freq;
                                 $updatedFilterData[$docId] = 1; // 1 is just a some constant value, so we don't need additional var dereference here
                             }
                         }
@@ -1099,8 +1100,9 @@ class SegmentInfo implements TermsStreamInterface
                             }
                         } else {
                             $docId += $docDelta/2;
+                            $freq = $frqFile->readVInt();
                             if (isset($filter[$docId])) {
-                                $result[$shift + $docId] = $frqFile->readVInt();
+                                $result[$shift + $docId] = $freq;
                                 $updatedFilterData[$docId] = 1; // 1 is just some constant value, so we don't need additional var dereference here
                             }
                         }
