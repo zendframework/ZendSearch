@@ -160,7 +160,7 @@ class MultiSearcher implements SearchIndexInterface
         $docs = 0;
 
         foreach ($this->_indices as $index) {
-            $docs += $this->_indices->numDocs();
+            $docs += $index->numDocs();
         }
 
         return $docs;
