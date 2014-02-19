@@ -132,7 +132,7 @@ class MultiSearcher implements SearchIndexInterface
         $count = 0;
 
         foreach ($this->_indices as $index) {
-            $count += $this->_indices->count();
+            $count += $index->count();
         }
 
         return $count;
