@@ -1,5 +1,5 @@
 {
-    "name": "Abraxas-Medien/zendsearch",
+    "name": "abraxas-medien/zendsearch",
     "description": "a general purpose text search engine written entirely in PHP 5",
     "type": "library",
     "license": "BSD-3-Clause",
