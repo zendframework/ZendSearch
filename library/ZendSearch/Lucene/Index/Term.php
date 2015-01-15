@@ -75,7 +75,7 @@ class Term
          */
         $prefixBytes = 0;
         $prefixChars = 0;
-        while ($prefixBytes < strlen($str)  &&  $prefixChars < $length) {
+        while (isset($str[$prefixBytes])  &&  $prefixChars < $length) {
             $charBytes = 1;
             if ((ord($str[$prefixBytes]) & 0xC0) == 0xC0) {
                 $charBytes++;
@@ -87,7 +87,7 @@ class Term
                 }
             }
 
-            if ($prefixBytes + $charBytes > strlen($str)) {
+            if (! isset($str[$prefixBytes + $charBytes - 1])) {
                 // wrong character
                 break;
             }
