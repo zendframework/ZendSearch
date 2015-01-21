@@ -414,7 +414,7 @@ class HTML extends Document
         $wordsToHighlightList = array();
         $analyzer = Analyzer\Analyzer::getDefault();
         foreach ($words as $wordString) {
-            $wordsToHighlightList[] = $analyzer->tokenize($wordString);
+            $wordsToHighlightList[] = $analyzer->tokenize($wordString, $this->_doc->encoding);
         }
         $wordsToHighlight = call_user_func_array('array_merge', $wordsToHighlightList);
 
