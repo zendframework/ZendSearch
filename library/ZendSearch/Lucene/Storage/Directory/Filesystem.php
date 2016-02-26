@@ -87,7 +87,8 @@ class Filesystem implements DirectoryInterface
             return true;
         }
         if (self::mkdirs(dirname($dir), $mode, $recursive)) {
-            return mkdir($dir, $mode);
+            mkdir($dir, $mode);
+            return chmod($dir, $mode);
         }
         return false;
     }
