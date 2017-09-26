@@ -95,7 +95,8 @@ class MultiTerm extends AbstractQuery
     public function __construct($terms = null, $signs = null)
     {
         if (is_array($terms)) {
-            if (count($terms) > Lucene\Lucene::getTermsPerQueryLimit()) {
+            $maxTerms = Lucene\Lucene::getTermsPerQueryLimit();
+            if ($maxTerms != 0 && count($terms) > $maxTerms) {
                 throw new InvalidArgumentException('Terms per query limit is reached.');
             }
 
